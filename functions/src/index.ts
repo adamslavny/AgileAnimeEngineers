@@ -17,3 +17,15 @@ export const helloWorld = functions.https.onRequest((request, response) => cors(
   
   response.send({data: "Hello, World!"});
 }));
+
+export const getCategories = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const querySnapshot = await db.collection("Categories").get();
+  let categoryData: any[] = [];
+  querySnapshot.forEach((category) => {
+    categoryData.push({name: category.data().name, id: category.id});
+  });
+  response.send({data: categoryData});
+}));
