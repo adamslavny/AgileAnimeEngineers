@@ -29,3 +29,17 @@ export const getCategories = functions.https.onRequest((request, response) => co
   });
   response.send({data: categoryData});
 }));
+
+export const getDiscussions = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const category = request.body.data.category;
+
+  const querySnapshot = await db.collection(`Categories/${category}/Discussions`).get();
+  let discussionData: any[] = [];
+  querySnapshot.forEach((discussion) => {
+    discussionData.push({name: category.data().name, id: discussion.id});
+  });
+  response.send({data: discussionData});
+}));
