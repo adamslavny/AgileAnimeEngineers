@@ -37,9 +37,6 @@ export const getDiscussions = functions.https.onRequest((request, response) => c
   const category = request.body.data.category;
 
   const querySnapshot = await db.collection(`Categories/${category}/Discussions`).get();
-  let discussionData: any[] = [];
-  querySnapshot.forEach((discussion) => {
-    discussionData.push({name: category.data().name, id: discussion.id});
-  });
+  const discussionData = querySnapshot.docs.map((doc) => {return {name: doc.data().name, id: doc.id}});
   response.send({data: discussionData});
 }));
