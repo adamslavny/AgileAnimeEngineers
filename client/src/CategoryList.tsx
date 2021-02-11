@@ -20,7 +20,7 @@ const CategoryList = () => {
 
   return (
     <div className="category-list">
-      {categories && categories.map((category) => {
+      {(categories && categories.map((category) => {
         return (
           <div className="category" key={category.id}>
             <Link to={`/category/${category.id}`}>
@@ -33,7 +33,7 @@ const CategoryList = () => {
             </Link>
           </div>
         );
-      })}
+      })) || (<p>Loading...</p>)}
     </div>
   );
 };
