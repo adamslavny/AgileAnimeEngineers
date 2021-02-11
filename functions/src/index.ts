@@ -23,10 +23,7 @@ export const getCategories = functions.https.onRequest((request, response) => co
   log("body", request.body);
 
   const querySnapshot = await db.collection("Categories").get();
-  let categoryData: any[] = [];
-  querySnapshot.forEach((category) => {
-    categoryData.push({name: category.data().name, id: category.id});
-  });
+  const categoryData = querySnapshot.docs.map((doc) => {return {name: doc.data().name, id: doc.id}});
   response.send({data: categoryData});
 }));
 
