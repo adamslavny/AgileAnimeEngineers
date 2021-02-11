@@ -1,25 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import CategoryList from './CategoryList';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import CategoryView from './CategoryView';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Link to="/">
+          <h2>Welcome to Agile Anime Engineers</h2>
+        </Link>
+        <Switch>
+          <Route exact path="/">
+            <CategoryList />
+          </Route>
+          <Route path="/category/:id">
+            <CategoryView />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 

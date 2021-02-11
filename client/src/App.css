@@ -36,4 +36,11 @@
     transform: rotate(360deg);
   }
 } */
+
+.category-list {
+  background-color: aliceblue;
+}
+
+.category {
+  border-style: inset;
 }
