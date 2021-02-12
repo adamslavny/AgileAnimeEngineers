@@ -16,7 +16,7 @@ const CategoryList = () => {
     categoriesProm.then((result) => {
       setCategories(result);
     });
-  });
+  }, []);
 
   return (
     <div className="category-list">
