@@ -37,7 +37,7 @@ export const getDiscussions = functions.https.onRequest((request, response) => c
   const categorySnapshot = await categoryRef.get();
   const categoryData = categorySnapshot.data();
   if(categoryData === undefined){
-    response.status(404).send({data: null});
+    response.status(200).send({data: {}});
     return;
   }
   const discussionsSnapshot = await categoryRef.collection("Discussions").get();
