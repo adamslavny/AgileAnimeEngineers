@@ -1,10 +1,6 @@
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
-
-interface category {
-  name: string;
-  id: string;
-}
+import { category } from "./res/interfaces";
 
 const CategoryList = (props: {categories: Array<category>}) => {
   const { categories } = props;

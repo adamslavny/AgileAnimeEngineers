@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
-
-interface discussion{
-  name: string;
-  id: string;
-}
+import { discussion } from "./res/interfaces";
 
 const DiscussionList = (props: {discussions: Array<discussion>}) => {
   const { discussions } = props;

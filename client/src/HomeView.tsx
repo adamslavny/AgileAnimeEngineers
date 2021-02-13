@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { getCategories } from "./BackendConnection";
 import CategoryList from "./CategoryList";
-
-interface category {
-  name: string;
-  id: string;
-}
+import { category } from "./res/interfaces";
 
 const HomeView = () => {
   const [categories, setCategories] = useState<Array<category>>();

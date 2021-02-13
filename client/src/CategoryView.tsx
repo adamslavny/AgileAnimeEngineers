@@ -3,11 +3,7 @@ import DiscussionList from "./DiscussionList";
 import { useEffect, useState } from "react";
 import { getDiscussions } from "./BackendConnection";
 import NotFound from "./NotFound";
-
-interface discussion{
-  name: string;
-  id: string;
-}
+import { discussion } from "./res/interfaces";
 
 const CategoryView = () => {
   const { id } = useParams() as {id: string};
