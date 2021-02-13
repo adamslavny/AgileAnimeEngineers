@@ -22,8 +22,8 @@ export const getCategories = functions.https.onRequest((request, response) => co
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
-  const querySnapshot = await db.collection("Categories").get();
-  const categoryData = querySnapshot.docs.map((doc) => {return {name: doc.data().name, id: doc.id}});
+  const categoriesSnapshot = await db.collection("Categories").get();
+  const categoryData = categoriesSnapshot.docs.map((doc) => {return {name: doc.data().name, id: doc.id}});
   response.send({data: categoryData});
 }));
 
@@ -33,7 +33,15 @@ export const getDiscussions = functions.https.onRequest((request, response) => c
 
   const category = request.body.data.category;
 
-  const querySnapshot = await db.collection(`Categories/${category}/Discussions`).get();
-  const discussionData = querySnapshot.docs.map((doc) => {return {name: doc.data().name, id: doc.id}});
-  response.send({data: discussionData});
+  const categoryRef = db.doc(`Categories/${category}`);
+  const categorySnapshot = await categoryRef.get();
+  const categoryData = categorySnapshot.data();
+  if(categoryData === undefined){
+    response.status(404).send({data: null});
+    return;
+  }
+  const discussionsSnapshot = await categoryRef.collection("Discussions").get();
+
+  const discussionData = discussionsSnapshot.docs.map((doc) => {return {name: doc.data().name, id: doc.id}});
+  response.send({data: { name: categoryData.name, discussions: discussionData}});
 }));
