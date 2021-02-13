@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import CategoryList from './CategoryList';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import CategoryView from './CategoryView';
 import NotFound from './NotFound';
