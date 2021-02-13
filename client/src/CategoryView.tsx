@@ -16,7 +16,6 @@ const CategoryView = () => {
 
   useEffect(() => {
     getDiscussions(id).then((discussionsData) => {
-      console.log(discussionsData);
       setValidCategory(JSON.stringify(discussionsData) !== "{}");
       setDiscussions(discussionsData.discussions);
     });
