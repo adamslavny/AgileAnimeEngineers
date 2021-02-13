@@ -14,15 +14,17 @@ const DiscussionList = (props: {discussions: Array<discussion>}) => {
     <div className="discussion-list">
       {discussions.map((discussion) => {
         return (
-          <Link to={`/category/discussion/${discussion.id}`}>
-            <Card>
-              <Card.Body>
-                <Card.Title>{discussion.name}</Card.Title>
-                <Card.Text>Some quick example text!</Card.Text>
-              </Card.Body>
-            </Card>
-          </Link>
-      ) ;
+          <div className="discussion" key={discussion.id}>
+            <Link to={`/category/discussion/${discussion.id}`}>
+              <Card>
+                <Card.Body>
+                  <Card.Title>{discussion.name}</Card.Title>
+                  <Card.Text>Some quick example text!</Card.Text>
+                </Card.Body>
+              </Card>
+            </Link>
+          </div>
+        );
       })}
     </div>
   );
