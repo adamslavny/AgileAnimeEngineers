@@ -3,6 +3,7 @@ import './App.css';
 import CategoryList from './CategoryList';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import CategoryView from './CategoryView';
+import NotFound from './NotFound';
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
           </Route>
           <Route path="/category/:id">
             <CategoryView />
+          </Route>
+          <Route path="*">
+            <NotFound />
           </Route>
         </Switch>
       </div>
