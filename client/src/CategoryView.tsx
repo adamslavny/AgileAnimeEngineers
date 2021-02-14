@@ -8,12 +8,16 @@ import { discussion } from "./res/interfaces";
 const CategoryView = () => {
   const { id } = useParams() as {id: string};
   const [discussions, setDiscussions] = useState<Array<discussion>>();
+  const [categoryName, setCategoryName] = useState("");
   const [validCategory, setValidCategory] = useState(true);
 
   useEffect(() => {
     getDiscussions(id).then((discussionsData) => {
       setValidCategory(JSON.stringify(discussionsData) !== "{}");
-      setDiscussions(discussionsData.discussions);
+      if(validCategory){
+        setDiscussions(discussionsData.discussions);
+        setCategoryName(discussionsData.name);
+      }
     });
   }, [id]);
 
@@ -35,6 +39,9 @@ const CategoryView = () => {
 
   return (
     <div className="category-view">
+      <div>
+        <h4>{categoryName}</h4>
+      </div>
       {renderDiscussions()}
     </div>
   );
