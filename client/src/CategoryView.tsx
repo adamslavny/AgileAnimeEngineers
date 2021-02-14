@@ -29,7 +29,7 @@ const CategoryView = () => {
       );
     }
     return (
-      <DiscussionList discussions={discussions}/>
+      <DiscussionList discussions={discussions} id={id}/>
     );
   };
 

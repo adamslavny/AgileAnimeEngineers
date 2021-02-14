@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import CategoryView from './CategoryView';
 import NotFound from './NotFound';
 import HomeView from './HomeView';
+import DiscussionView from './DiscussionView';
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
           </Route>
           <Route path="/category/:id">
             <CategoryView />
+          </Route>
+          <Route path="/discussion/:categoryID/:discussionID">
+            <DiscussionView />
           </Route>
           <Route path="*">
             <NotFound />
