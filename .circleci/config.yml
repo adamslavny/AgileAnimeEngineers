@@ -10,4 +10,8 @@ workflows:
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - welcome/run
+      - welcome/test
+    steps:
+      - checkout
+      - run: yarn install
+      - run: yarn test
