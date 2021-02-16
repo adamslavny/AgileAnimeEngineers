@@ -1,25 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import CategoryView from './CategoryView';
+import NotFound from './NotFound';
+import HomeView from './HomeView';
+import DiscussionView from './DiscussionView';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Link to="/">
+          <h2>Welcome to Agile Anime Engineers</h2>
+        </Link>
+        <Switch>
+          <Route exact path="/">
+            <HomeView />
+          </Route>
+          <Route path="/category/:id">
+            <CategoryView />
+          </Route>
+          <Route path="/discussion/:categoryID/:discussionID">
+            <DiscussionView />
+          </Route>
+          <Route path="*">
+            <NotFound />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
