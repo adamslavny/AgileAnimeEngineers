@@ -1,8 +1,19 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
-version: '2.1'
-orbs:
-  jest: blimmer/jest@0.2.1
-workflows:
+jobs:
   test:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run:
+          command: yarn run test
+          name: Run YARN tests
+orbs:
+  node: circleci/node@4.1.0
+version: 2.1
+workflows:
+  test_my_app:
     jobs:
-      - jest/test
+      - test
