@@ -8,6 +8,12 @@ jobs:
     steps:
       - checkout:
           path: ~/repo/client
+      - run: 
+          name: pwd
+          command: pwd
+      - run: 
+          name: ls
+          command: ls
       - run:
           name: Update NPM
           command: "sudo npm install -g npm@6.14.10"
