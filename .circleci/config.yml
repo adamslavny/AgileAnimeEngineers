@@ -2,7 +2,7 @@
 jobs:
   build:
     docker:
-      - image: cimg/node:<version>-browsers
+      - image: circleci/node:14.15.4-browsers
     steps:
       - checkout
       - run: node --version
