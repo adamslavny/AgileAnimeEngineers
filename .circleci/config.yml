@@ -14,11 +14,14 @@ jobs:
           name: Install Dependencies
           command: npm install
       - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
           name: Install Yarn
           command: yarn install
       - run:
           name: Run tests
-          command: yarn test
+          command: npm test
       - run:
           name: A
           command: a
