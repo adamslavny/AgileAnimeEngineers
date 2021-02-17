@@ -2,7 +2,7 @@
 version: 2.1
 jobs:
   build:
-    working_directory: ~/client
+    working_directory: ~/client/
     docker:
       - image: circleci/node:14.15.4
     steps:
@@ -18,7 +18,4 @@ jobs:
           command: yarn install
       - run:
           name: Run tests
-          command: npm test
-      - run:
-          name: A
-          command: a
+          command: yarn test
