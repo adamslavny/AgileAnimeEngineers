@@ -12,10 +12,7 @@ jobs:
           command: "sudo npm install -g npm@6.14.10"
       - run:
           name: Install Dependencies
-          command: npm install
-      - run:
-          name: Install Dependencies
-          command: npm install
+          command: npm install --no-package-lock
       - run:
           name: Install Yarn
           command: yarn install
