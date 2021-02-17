@@ -32,3 +32,14 @@ test('rendering', () => {
   expect(result).toEqual(7);
 
 });
+
+test('catagories', () => {
+  render(<App />);
+  //test 4 tests if the title is a link which is then compared to the name
+  //of the element found by text if they equal we  can confirm the  link
+  //exists and is on the title words
+  const linkElement = screen.getByRole('link');
+  const nameElement = screen.getByText(/Welcome to Agile Anime Engineers/i);
+  expect(linkElement).toBeInTheDocument();
+  expect(linkElement.className == nameElement.nodeName);
+});
