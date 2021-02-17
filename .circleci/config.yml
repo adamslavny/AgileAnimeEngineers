@@ -2,9 +2,9 @@
 jobs:
   build:
     docker:
-      - image: cimg/node:1.22.10
+      - image: circleci/node:<version>-browsers
     steps:
       - checkout
-      - run: yarn --version
+      - run: node --version
+      - run: yarn install
       - run: yarn start
-      - run: yarn test
