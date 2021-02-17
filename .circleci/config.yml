@@ -19,14 +19,14 @@ jobs:
           command: ls
       - run:
           name: Update NPM
-          command: "sudo npm install -g npm@6.14.10"
+          command: cd client && "sudo npm install -g npm@6.14.10"
       - run:
           name: Install Dependencies
-          command: npm install --no-package-lock
+          command: cd client && npm install --no-package-lock
       - run:
           name: Install Yarn
-          command: yarn install
+          command: cd client && yarn install
       - run:
           name: Run tests
-          command: yarn test
+          command: cd client && yarn test
 
