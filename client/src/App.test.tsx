@@ -24,3 +24,11 @@ test('numbers', () => {
 
 });
 
+
+test('rendering', () => {
+  render(<App />);
+  //Test 3
+  let result = 5 + 2;
+  expect(result).toEqual(7);
+
+});
