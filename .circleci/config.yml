@@ -19,7 +19,7 @@ jobs:
           command: ls
       - run:
           name: Update NPM
-          command: cd client && "sudo npm install -g npm@6.14.10"
+          command: "cd client && sudo npm install -g npm@6.14.10"
       - run:
           name: Install Dependencies
           command: cd client && npm install --no-package-lock
