@@ -19,7 +19,7 @@ const CategoryView = () => {
         setCategoryName(discussionsData.name);
       }
     });
-  }, [id]);
+  }, [id, validCategory]);
 
   const renderDiscussions = () => {
     if(!validCategory){
