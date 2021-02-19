@@ -1,8 +1,23 @@
 import { useState } from "react";
+import { addCategory } from "./BackendConnection";
+import { useHistory } from "react-router-dom";
 
 const AddCategoryForm = () => {
   const [addingCategory, setAddingCategory] = useState(false);
   const [name, setName] = useState("");
+
+  const history = useHistory();
+
+  const handleAddCategory = () => {
+    addCategory(name).then((result) => {
+      if(result.success){
+        setAddingCategory(false);
+        history.push(`/category/${result.details.id}`);
+        return;
+      }
+
+    });
+  };
 
   if(addingCategory){
     return (
@@ -16,11 +31,11 @@ const AddCategoryForm = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </form>
-        <button>Add Category</button>
-    </div>
+        <button onClick={handleAddCategory}>Add Category</button>
+      </div>
     );
   }
-  
+
   return (
     <div className="new-category-button">
       <button onClick={() => setAddingCategory(true)}>
