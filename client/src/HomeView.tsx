@@ -43,7 +43,7 @@ const HomeView = () => {
 
   return (
     <div className="home-view">
-      {renderAddCategory()}
+      <AddCategoryForm />
       {renderCategories()}
     </div>
   );
