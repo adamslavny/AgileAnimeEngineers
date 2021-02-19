@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AddCategoryForm from "./AddCategoryForm";
 import { getCategories } from "./BackendConnection";
 import CategoryList from "./CategoryList";
 import { category } from "./res/interfaces";
@@ -28,13 +29,7 @@ const HomeView = () => {
   const renderAddCategory = () => {
     if(addingCategory){
       return (
-        <div className="new-category-form">
-          <form>
-            <label>Category name: </label>
-            <input type="text" required />
-          </form>
-          <button>Add Category</button>
-        </div>
+        <AddCategoryForm />
       );
     }
     return (
