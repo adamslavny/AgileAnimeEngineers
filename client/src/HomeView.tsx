@@ -24,8 +24,31 @@ const HomeView = () => {
     );
   };
 
+  const [addingCategory, setAddingCategory] = useState(false);
+  const renderAddCategory = () => {
+    if(addingCategory){
+      return (
+        <div className="new-category-form">
+          <form>
+            <label>Category name: </label>
+            <input type="text" required />
+          </form>
+          <button>Add Category</button>
+        </div>
+      );
+    }
+    return (
+      <div className="new-category-button">
+        <button onClick={() => setAddingCategory(true)}>
+          Add Category
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className="home-view">
+      {renderAddCategory()}
       {renderCategories()}
     </div>
   );
