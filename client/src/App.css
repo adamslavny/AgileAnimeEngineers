@@ -37,13 +37,125 @@
   }
 } */
 
+a:hover, a:visited, a:link, a:active
+{
+    text-decoration: none;
+    text-align: center;
+    outline: none;
+}
+
+a{
+  outline: none;
+}
+
+.category-view{
+  justify-content: center;
+  text-align: center;
+  font-family: "Arial Rounded MT"
+}
+
 .category-list {
-  background-color: aliceblue;
+  display: grid;
+  justify-content: center;
+  background-color: rgb(255, 255, 255);
+  padding-left: 10px;
+  text-decoration: none;
+  font-family: "Arial Rounded MT"
 }
 
 .category {
-  border-style: inset;
+  place-items: center; 
+  border-radius: 50px;
+  border: 4px solid #f0bb9a;
+  background:  #4072cf;
+  padding:25px;
+  width: 400px;
+  height: 150px;
+  margin-bottom: 25px;
+  margin-top: 20px;
+  box-shadow:  15px 15px 30px #879abe,
+  -15px -15px 30px #ddfcff;
+  font-family: "Arial Rounded MT";
+  
 }
+
+.App-link {
+  text-decoration: none
+}
+
+.card{
+  text-decoration: none;
+  border: 0;
+ 
+}
+
+
+.card-body{
+  background-color: #cedbf3;
+  text-decoration: none;
+  outline:none;
+}
+
+
+a, a:hover, a:visited, a:link, a:active
+{
+  outline: 0 !important;
+  text-decoration: none !important;
+  text-align: center;
+  box-shadow: none;
+ 
+}
+
+a{
+  text-decoration: none !important;
+  background-color: #cedbf3
+}
+
+
+
+.category-view{
+  justify-content: center;
+  text-align: center;
+  font-family: "Arial Rounded MT"
+}
+
+.category-list {
+  display: grid;
+  justify-content: center;
+  background-color: rgb(255, 255, 255);
+  padding-left: 10px;
+  text-decoration: none;
+  font-family: "Arial Rounded MT"
+}
+
+.category {
+  place-items: center; 
+  border-radius: 50px;
+  border: 4px solid #f0bb9a;
+  background:  #cedbf3;
+  padding:25px;
+  width: 400px;
+  height: 150px;
+  margin-bottom: 25px;
+  margin-top: 20px;
+  box-shadow:  15px 15px 30px #879abe,
+  -15px -15px 30px #ddfcff;
+  font-family: "Arial Rounded MT";
+  
+}
+
+
+
+.App-link {
+  text-decoration: none
+}
+
+
+
+.card-title{
+  font-weight: bold;
+}
+
 
 .header {
   background-color: #17a2b8;
@@ -63,3 +175,4 @@
 .navbar-custom{
   background-color: lightsalmon;
 }
+
