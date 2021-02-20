@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import DiscussionList from "./DiscussionList";
+import DiscussionList from "./../DiscussionList";
 import { useEffect, useState } from "react";
-import { getDiscussions } from "./BackendConnection";
+import { getDiscussions } from "./../BackendConnection";
 import NotFound from "./NotFound";
-import { discussion } from "./res/interfaces";
+import { discussion } from "./../res/interfaces";
 
 const CategoryView = () => {
   const { id } = useParams() as {id: string};
