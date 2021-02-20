@@ -11,7 +11,7 @@ const CategoryList = (props: {categories: Array<category>}) => {
         return (
           <div className="category" key={category.id}>
             <Link to={`/category/${category.id}`}>
-              <Card>
+              <Card className="no-border-plz">
                 <Card.Body>
                   <Card.Title>{category.name}</Card.Title>
                   <Card.Text>Some quick example text!</Card.Text>
