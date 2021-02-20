@@ -5,6 +5,16 @@ import { discussion } from "./res/interfaces";
 const DiscussionList = (props: {discussions: Array<discussion>, id: string}) => {
   const { discussions, id } = props;
 
+  discussions.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    // a must be equal to b
+    return 0;
+  });
 
   return (
     <div className="discussion-list">

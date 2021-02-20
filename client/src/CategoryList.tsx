@@ -5,6 +5,17 @@ import { category } from "./res/interfaces";
 const CategoryList = (props: {categories: Array<category>}) => {
   const { categories } = props;
 
+  categories.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    // a must be equal to b
+    return 0;
+  });
+
   return (
     <div className="category-list">
       {(categories && categories.map((category) => {
