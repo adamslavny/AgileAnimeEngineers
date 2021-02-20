@@ -24,3 +24,9 @@ export const addCategory = (categoryName: string) => {
   return addCategoryCall({ name: categoryName }).then((result) => {return result.data});
 };
 
+export const addDiscussion = (discussionName: string, categoryID: string) => {
+  console.log(`calling addDiscussion(${discussionName}, ${categoryID})`);
+  const addDiscussionCall = functions.httpsCallable("addDiscussion");
+  return addDiscussionCall({ name: discussionName, categoryID: categoryID }).then((result) => {return result.data});
+};
+
