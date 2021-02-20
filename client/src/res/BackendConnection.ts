@@ -1,4 +1,4 @@
-import { functions } from './res/firebase';
+import { functions } from './firebase';
 
 /*
 Note:

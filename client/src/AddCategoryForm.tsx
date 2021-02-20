@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addCategory } from "./BackendConnection";
+import { addCategory } from "./res/BackendConnection";
 import { useHistory } from "react-router-dom";
 
 const AddCategoryForm = () => {

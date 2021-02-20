@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AddCategoryForm from "../AddCategoryForm";
-import { getCategories } from "../BackendConnection";
+import { getCategories } from "../res/BackendConnection";
 import CategoryList from "../CategoryList";
 import { category } from "../res/interfaces";
 

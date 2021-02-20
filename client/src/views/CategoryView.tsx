@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import DiscussionList from "./../DiscussionList";
 import { useEffect, useState } from "react";
-import { getDiscussions } from "./../BackendConnection";
+import { getDiscussions } from "../res/BackendConnection";
 import NotFound from "./NotFound";
 import { discussion } from "./../res/interfaces";
 
