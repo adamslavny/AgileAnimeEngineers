@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
-import DiscussionList from "./DiscussionList";
+import DiscussionList from "./../DiscussionList";
 import { useEffect, useState } from "react";
-import { getDiscussions } from "./BackendConnection";
+import { getDiscussions } from "../res/BackendConnection";
 import NotFound from "./NotFound";
-import { discussion } from "./res/interfaces";
+import { discussion } from "./../res/interfaces";
+import AddDiscussionForm from "../AddDiscussionForm";
 
 const CategoryView = () => {
   const { id } = useParams() as {id: string};
@@ -19,30 +20,28 @@ const CategoryView = () => {
         setCategoryName(discussionsData.name);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  const renderDiscussions = () => {
-    if(!validCategory){
-      return (
-        <NotFound />
-      );
-    }
-    if(discussions === undefined){
-      return (
-        <p>Loading...</p>
-      );
-    }
+  if(!validCategory){
     return (
-      <DiscussionList discussions={discussions} id={id}/>
+      <NotFound />
     );
-  };
+  }
+
+  if(discussions === undefined){
+    return (
+      <p>Loading...</p>
+    );
+  }
 
   return (
     <div className="category-view">
       <div>
         <h4>{categoryName}</h4>
       </div>
-      {renderDiscussions()}
+      <AddDiscussionForm categoryID={id}/>
+      <DiscussionList discussions={discussions} id={id}/>
     </div>
   );
 };

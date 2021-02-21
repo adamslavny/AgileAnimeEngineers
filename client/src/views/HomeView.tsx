@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { getCategories } from "./BackendConnection";
-import CategoryList from "./CategoryList";
-import { category } from "./res/interfaces";
+import AddCategoryForm from "../AddCategoryForm";
+import { getCategories } from "../res/BackendConnection";
+import CategoryList from "../CategoryList";
+import { category } from "../res/interfaces";
 
 const HomeView = () => {
   const [categories, setCategories] = useState<Array<category>>();
@@ -26,6 +27,7 @@ const HomeView = () => {
 
   return (
     <div className="home-view">
+      <AddCategoryForm />
       {renderCategories()}
     </div>
   );

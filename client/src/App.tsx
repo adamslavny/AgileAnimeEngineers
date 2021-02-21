@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
-import CategoryView from './CategoryView';
-import NotFound from './NotFound';
-import HomeView from './HomeView';
-import DiscussionView from './DiscussionView';
+import CategoryView from './views/CategoryView';
+import NotFound from './views/NotFound';
+import HomeView from './views/HomeView';
+import DiscussionView from './views/DiscussionView';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Navbar, Nav, Form, FormControl, Button} from 'react-bootstrap';
 import gator from './icons/gator.svg';

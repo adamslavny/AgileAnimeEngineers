@@ -70,3 +70,31 @@ export const addCategory = functions.https.onRequest((request, response) => cors
   const newID = (await categories.add({name: name})).id;
   response.send({data: {success: true, details: {id: newID}}});
 }));
+
+interface addDiscussionRequest {
+  name: string;
+  categoryID: string;
+}
+
+export const addDiscussion = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const { name, categoryID } = request.body.data as addDiscussionRequest;
+
+  const category = db.doc(`Categories/${categoryID}`);
+  if(!(await category.get()).exists){
+    response.send({data: {success: false, details: {errorMessage: `There is no category with id ${categoryID}.`}}});
+    return;
+  }
+
+  const categoryDiscussions = category.collection("Discussions");
+  const sameNameDiscussions = await categoryDiscussions.where("name", "==", name).get();
+  if(sameNameDiscussions.size > 0){
+    response.send({data: {success: false, details: {errorMessage: `There is already a discussion in this category named ${name}.`}}});
+    return;
+  }
+  
+  const newID = (await categoryDiscussions.add({name: name})).id;
+  response.send({data: {success: true, details: {id: newID}}});
+}));
