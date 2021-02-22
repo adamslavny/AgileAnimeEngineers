@@ -30,3 +30,15 @@ export const addDiscussion = (discussionName: string, categoryID: string) => {
   return addDiscussionCall({ name: discussionName, categoryID: categoryID }).then((result) => {return result.data});
 };
 
+export const deleteCategory = (categoryID: string) => {
+  console.log(`calling deleteCategory(${categoryID})`);
+  const deleteCategoryCall = functions.httpsCallable("deleteCategory");
+  return deleteCategoryCall({ categoryID: categoryID }).then((result) => {return result.data});
+};
+
+export const deleteDiscussion = (categoryID: string, discussionID: string) => {
+  console.log(`calling deleteDIscussion((${categoryID}, ${discussionID})`);
+  const deleteDiscussionCall = functions.httpsCallable("deleteDiscussion");
+  return deleteDiscussionCall({ categoryID: categoryID, discussionID: discussionID }).then((result) => {return result.data});
+};
+

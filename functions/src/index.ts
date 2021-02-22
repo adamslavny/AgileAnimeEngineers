@@ -74,7 +74,7 @@ export const addCategory = functions.https.onRequest((request, response) => cors
 interface addDiscussionRequest {
   name: string;
   categoryID: string;
-}
+};
 
 export const addDiscussion = functions.https.onRequest((request, response) => cors(request, response, async () => {
   response.set('Access-Control-Allow-Origin', '*');
@@ -97,4 +97,42 @@ export const addDiscussion = functions.https.onRequest((request, response) => co
   
   const newID = (await categoryDiscussions.add({name: name})).id;
   response.send({data: {success: true, details: {id: newID}}});
+}));
+
+interface deleteCategoryRequest{
+  categoryID: string;
+};
+
+export const deleteCategory= functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const { categoryID } = request.body.data as deleteCategoryRequest;
+
+  const category = db.doc(`Categories/${categoryID}`);
+  await category.delete();
+
+  response.send({data: {}});
+}));
+
+interface deleteDiscussionRequest {
+  discussionID: string;
+  categoryID: string;
+};
+
+export const deleteDiscussion = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const { discussionID, categoryID } = request.body.data as deleteDiscussionRequest;
+
+  const category = db.doc(`Categories/${categoryID}`);
+  if(!(await category.get()).exists){
+    response.send({data: {success: false, details: {errorMessage: `There is no category with id ${categoryID}.`}}});
+    return;
+  }
+
+  const discussion = category.collection("Discussions").doc(`${discussionID}`);
+  await discussion.delete();
+  response.send({data: {success: true}});
 }));
