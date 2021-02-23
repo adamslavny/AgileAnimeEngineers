@@ -16,20 +16,22 @@ function App() {
       <div className="App">
 
         <Navbar sticky="top" bg="info" variant="dark">
-          <Navbar.Brand href="/">
-            <img
-              alt="gator"
-              src={gator}
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-            />{' '}
-            Animex
-          </Navbar.Brand>
+          <Link to="/">
+            <Navbar.Brand>
+              <img
+                alt="gator"
+                src={gator}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+              />{' '}
+              Animex
+            </Navbar.Brand>
+          </Link>
           <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="#link2">Link2</Nav.Link>
-            <Nav.Link href="#link3">Link3</Nav.Link>
+            <Nav.Item style={{padding: "5px"}}>Home</Nav.Item>
+            <Nav.Item style={{padding: "5px"}}>Link2</Nav.Item>
+            <Nav.Item style={{padding: "5px"}}>Link3</Nav.Item>
           </Nav>
           <Form inline>
             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
