@@ -18,7 +18,7 @@ const CategoryList = (props: {categories: Array<category>}) => {
 
   return (
     <div className="category-list">
-      {(categories && categories.map((category) => {
+      {categories.map((category) => {
         return (
           <div className="category" key={category.id}>
             <Link to={`/category/${category.id}`}>
@@ -31,7 +31,7 @@ const CategoryList = (props: {categories: Array<category>}) => {
             </Link>
           </div>
         );
-      })) || (<p>Loading...</p>)}
+      })}
     </div>
   );
 };
