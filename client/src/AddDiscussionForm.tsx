@@ -25,7 +25,7 @@ const AddDiscussionForm = (props: {categoryID: string}) => {
     return (
       <div className="new-discussion-form">
         <form>
-          <label>Category name: </label>
+          <label>Discussion name: </label>
           <input
             type="text"
             required
