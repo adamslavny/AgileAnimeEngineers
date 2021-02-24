@@ -18,7 +18,7 @@ const DiscussionList = (props: {discussions: Array<discussion>, id: string}) => 
 
   return (
     <div className="discussion-list">
-      {discussions.map((discussion) => {
+      {(discussions.length && discussions.map((discussion) => {
         return (
           <div className="discussion" key={discussion.id}>
             <Link to={`/discussion/${id}/${discussion.id}`}>
@@ -31,7 +31,7 @@ const DiscussionList = (props: {discussions: Array<discussion>, id: string}) => 
             </Link>
           </div>
         );
-      })}
+      })) || (<p>There's no discussions here yet!</p>)}
     </div>
   );
 };
