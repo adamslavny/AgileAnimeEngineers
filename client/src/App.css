@@ -1,6 +1,6 @@
 a:hover, a:visited, a:link, a:active
 {
-    text-decoration: none;
+    text-decoration: none !important;
     text-align: center;
     outline: none;
     box-shadow: none;
@@ -40,6 +40,7 @@ a{
   box-shadow:  15px 15px 30px #879abe,
   -15px -15px 30px #ddfcff;
   font-family: "Arial Rounded MT";
+  text-decoration: none;
 }
 
 .App-link {
@@ -59,6 +60,7 @@ a{
 
 .card-title{
   font-weight: bold;
+  text-decoration: none;
 }
 
 .header {
@@ -81,5 +83,76 @@ a{
 }
 
 .no-border-plz{
+  text-decoration: none;
   border: none !important;
+}
+
+.no-border-plz.card{
+  text-decoration: none;
+}
+
+button{
+ display:inline-block;
+ padding:0.3em 1.2em;
+ margin:0 0.3em 0.3em 0;
+ border-radius: 25px !important;
+ box-sizing: border-box;
+ text-decoration:none;
+ font-family: "Arial Rounded MT";
+ font-weight:300;
+ color:#FFFFFF;
+ background-color:#237bff;
+ text-align:center;
+ transition: all 0.2s;
+ border: none;
+ margin: 10px;
+}
+
+button:hover{
+  background-color:#5297ff
+
+}
+.new-category-button{
+  margin: 10px;
+  border-radius: 25px;
+}
+
+.new-category-form{
+  margin: 10px;
+}
+
+label {
+  width:auto;
+  clear:left;
+  text-align:left;
+  padding-right:5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+
+.discussion-list{
+  display: grid;
+  justify-content: center;
+  background-color: rgb(255, 255, 255);
+  padding-left: 10px;
+  text-decoration: none;
+  font-family: "Arial Rounded MT";
+}
+
+.discussion{
+  place-items: center; 
+  border-radius: 50px;
+  border: 4px solid #f0bb9a;
+  background:  #cedbf3;
+  padding:25px;
+  width: 400px;
+  height: 150px;
+  margin-bottom: 25px;
+  margin-top: 20px;
+  box-shadow:  15px 15px 30px #879abe,
+  -15px -15px 30px #ddfcff;
+  font-family: "Arial Rounded MT";
+  text-decoration: none;
 }
