@@ -22,7 +22,7 @@ const DiscussionList = (props: {discussions: Array<discussion>, id: string}) => 
         return (
           <div className="discussion" key={discussion.id}>
             <Link to={`/discussion/${id}/${discussion.id}`}>
-              <Card>
+              <Card className="no-border-plz">
                 <Card.Body>
                   <Card.Title>{discussion.name}</Card.Title>
                   <Card.Text>Some quick example text!</Card.Text>
