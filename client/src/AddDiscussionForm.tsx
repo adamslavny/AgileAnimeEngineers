@@ -11,6 +11,10 @@ const AddDiscussionForm = (props: {categoryID: string}) => {
   const history = useHistory();
 
   const handleAddCategory = () => {
+    if(name === ""){
+      setAddingDiscussion(false);
+      return;
+    }
     addDiscussion(name, categoryID).then((result) => {
       if(result.success){
         setAddingDiscussion(false);

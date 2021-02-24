@@ -9,6 +9,10 @@ const AddCategoryForm = () => {
   const history = useHistory();
 
   const handleAddCategory = () => {
+    if(name === ""){
+      setAddingCategory(false);
+      return;
+    }
     addCategory(name).then((result) => {
       if(result.success){
         setAddingCategory(false);
