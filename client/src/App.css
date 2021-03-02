@@ -1,46 +1,157 @@
-/* .App {
+a:hover, a:visited, a:link, a:active{
+  text-decoration: none !important;
   text-align: center;
+  outline: none;
+  box-shadow: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+a{
+  text-decoration: none;
+  outline: none;
+  background-color: #cedbf3;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.category-view{
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  text-align: center;
+  font-family: "Arial Rounded MT";
 }
 
-.App-link {
-  color: #61dafb;
+.category-list{
+  display: grid;
+  justify-content: center;
+  background-color: rgb(255, 255, 255);
+  padding-left: 10px;
+  text-decoration: none;
+  font-family: "Arial Rounded MT";
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
-
-.category-list {
-  background-color: aliceblue;
+.category{
+  place-items: center; 
+  border-radius: 50px;
+  border: 4px solid #f0bb9a;
+  background:  #cedbf3;
+  padding:25px;
+  width: 400px;
+  height: 150px;
+  margin-bottom: 25px;
+  margin-top: 20px;
+  box-shadow:  15px 15px 30px #879abe,
+  -15px -15px 30px #ddfcff;
+  font-family: "Arial Rounded MT";
+  text-decoration: none;
 }
 
-.category {
+.App-link{
+  text-decoration: none
+}
+
+.card{
+  text-decoration: none;
+}
+
+
+.card-body{
+  background-color: #cedbf3;
+  text-decoration: none;
+
+}
+
+.card-title{
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.header{
+  background-color: #17a2b8;
+  text-align: center;
+  color:lightsalmon;
+  font-size:225%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.navbar-text{
+  font-size: xx-large;
+  padding-right: 5px;
+  padding: 5px;
   border-style: inset;
+}
+
+.navbar-custom{
+  background-color: lightsalmon;
+}
+
+.no-border-plz{
+  text-decoration: none;
+  border: none !important;
+}
+
+.no-border-plz.card{
+  text-decoration: none;
+}
+
+button{
+  display:inline-block;
+  padding:0.3em 1.2em;
+  margin:0 0.3em 0.3em 0;
+  border-radius: 25px !important;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family: "Arial Rounded MT";
+  font-weight:300;
+  color:#FFFFFF;
+  background-color:#237bff;
+  text-align:center;
+  transition: all 0.2s;
+  border: none;
+  margin: 10px;
+}
+
+button:hover{
+  background-color:#5297ff
+
+}
+.new-category-button{
+  margin: 10px;
+  border-radius: 25px;
+}
+
+.new-category-form{
+  margin: 10px;
+}
+
+label{
+  width:auto;
+  clear:left;
+  text-align:left;
+  padding-right:5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+
+.discussion-list{
+  display: grid;
+  justify-content: center;
+  background-color: rgb(255, 255, 255);
+  padding-left: 10px;
+  text-decoration: none;
+  font-family: "Arial Rounded MT";
+}
+
+.discussion{
+  place-items: center; 
+  border-radius: 50px;
+  border: 4px solid #f0bb9a;
+  background:  #cedbf3;
+  padding:25px;
+  width: 400px;
+  height: 150px;
+  margin-bottom: 25px;
+  margin-top: 20px;
+  box-shadow:  15px 15px 30px #879abe,
+  -15px -15px 30px #ddfcff;
+  font-family: "Arial Rounded MT";
+  text-decoration: none;
 }
