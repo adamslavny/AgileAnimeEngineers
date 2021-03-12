@@ -1,4 +1,4 @@
-import { functions } from './firebase';
+import { db, functions } from './firebase';
 
 /*
 Note:
@@ -37,8 +37,11 @@ export const deleteCategory = (categoryID: string) => {
 };
 
 export const deleteDiscussion = (categoryID: string, discussionID: string) => {
-  console.log(`calling deleteDIscussion((${categoryID}, ${discussionID})`);
+  console.log(`calling deleteDiscussion(${categoryID}, ${discussionID})`);
   const deleteDiscussionCall = functions.httpsCallable("deleteDiscussion");
   return deleteDiscussionCall({ categoryID: categoryID, discussionID: discussionID }).then((result) => {return result.data});
 };
 
+export const getChatroomMessages = (categoryID: string, discussionID: string) => {
+  return db.collection(`Categories/${categoryID}/Discussions/${discussionID}/Messages`);
+};
