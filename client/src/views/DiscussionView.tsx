@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { deleteDiscussion, getChatroomMessages } from "../res/BackendConnection";
 import firebase from 'firebase/app';
@@ -10,20 +10,22 @@ const DiscussionView = () => {
   
   const [messageList, setMessageList] = useState<Array<string>>();
   const [message, setMessage] = useState("");
+  const [chatroomRef] = useState(getChatroomMessages(categoryID, discussionID));
 
   const handleDelete = () => {
     deleteDiscussion(categoryID, discussionID).then(() => {
       history.push(`/category/${categoryID}`);
     });
   }
+  
+  useEffect(() => {
+    chatroomRef.orderBy("time", "asc").onSnapshot((querySnapshot) => {
+      let newMessageList: Array<string> = [];
+      querySnapshot.forEach((message) => newMessageList.push(message.get("content")));
+      setMessageList(newMessageList);
+    });
 
-  const chatroomRef = getChatroomMessages(categoryID, discussionID);
-  chatroomRef.onSnapshot((querySnapshot) => {
-    querySnapshot.forEach((message) => {console.log(message.get("content"));})
-    let newMessageList: Array<string> = [];
-    querySnapshot.forEach((message) => newMessageList.push(message.get("content")));
-    setMessageList(newMessageList);
-  })
+  }, [chatroomRef]);
 
   const sendMessage = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -37,9 +39,11 @@ const DiscussionView = () => {
   return (
     <div className="discussion-view">
       <button onClick={handleDelete}>Delete Discussion</button>
-      {messageList?.map((message) => {
+      {messageList?.map((message, i) => {
         return (
-          <p>{message}</p>
+          <div key={i}>
+            <p>{message}</p>
+          </div>
         );
       })}
       <form>
