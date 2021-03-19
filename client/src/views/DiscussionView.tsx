@@ -5,12 +5,20 @@ import firebase from 'firebase/app';
 import { message } from "../res/interfaces";
 
 const DiscussionView = (props: {username: string}) => {
+  useEffect(() => {
+    if(props.username === ""){
+      alert("Please set a username in the top right.");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  
+
   const { categoryID, discussionID } = useParams() as {categoryID: string, discussionID: string};
   
   const history = useHistory();
   
   const [messageList, setMessageList] = useState<Array<message>>();
-  const [message, setMessage] = useState<message>({ content: "", author: props.username});
+  const [messageText, setMessageText] = useState("");
   const [chatroomRef] = useState(getChatroomMessages(categoryID, discussionID));
 
   const handleDelete = () => {
@@ -30,11 +38,15 @@ const DiscussionView = (props: {username: string}) => {
 
   const sendMessage = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    if(message?.content === ""){
+    if(messageText === ""){
       return;
     }
-    chatroomRef.add({ content: message.content, time: firebase.firestore.Timestamp.now(), author: message.author });
-    setMessage({ content: "", author: props.username});
+    if(props.username === ""){
+      alert("Please set a username in the top right.");
+      return;
+    }
+    chatroomRef.add({ content: messageText, time: firebase.firestore.Timestamp.now(), author: props.username });
+    setMessageText("");
   };
 
   return (
@@ -50,9 +62,9 @@ const DiscussionView = (props: {username: string}) => {
       <form>
         <input 
           type="text"
-          value={message.content}
+          value={messageText}
           placeholder="Send a message..."
-          onChange={(e) => setMessage({ content: e.target.value, author: props.username})}
+          onChange={(e) => setMessageText(e.target.value)}
         />
         <button onClick={sendMessage}>Send</button>
       </form>
