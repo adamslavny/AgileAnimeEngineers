@@ -155,3 +155,121 @@ label{
   font-family: "Arial Rounded MT";
   text-decoration: none;
 }
+
+.discussion-view{
+  display: grid;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 30px; 
+
+
+}
+
+
+.msgClass
+{
+  position: relative;
+  background-color:#ffffff;
+  border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:grid;
+  vertical-align: middle;
+	cursor:pointer;
+	color:#666666;
+	font-family:Arial;
+	font-size:15px;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+  height: 40px;
+  line-height: 30px;
+  width: 650px;
+  margin: auto;
+  margin-top:3px ;
+  
+
+
+}
+
+.msg-text
+{
+  color:black;
+
+}
+
+.msgClass-2
+{
+  right: 0px;
+  position: absolute;
+	width: 550px;
+	background-color: #fff;
+	padding: 1.125em 1.5em;
+	font-size: 14px;
+	border-radius: 1rem;
+  box-shadow:	0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2);
+  margin-top: 1.5em;
+  color:black;
+}
+
+.msgClass-2::before {
+	content: '';
+	position: absolute;
+	width: auto;
+	height: auto;
+	bottom: 100%;
+	left: 1.5em; 
+	border: .75rem solid transparent;
+	border-top: none;
+
+	border-bottom-color: #fff;
+	filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
+}
+
+
+.send-button
+{
+  display:inline-block;
+  padding:0.3em 1.2em;
+  margin:2px;
+  border-radius: 25px !important;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family: "Arial Rounded MT";
+  font-weight:300;
+  color:#FFFFFF;
+  background-color:#237bff;
+  text-align:center;
+  transition: all 0.2s;
+  border: none;
+  width:100px;
+
+
+
+  position:fixed;
+  width:10%;
+  bottom: 0px;
+  right: 330px;
+  z-index:4000;
+  margin: auto;
+
+}
+
+.send-msg-form
+{
+  background-color: #ffffff;
+  position:fixed;
+  width:30%;
+  bottom: 0px;
+  z-index:4000;
+  margin: auto;
+  margin-bottom: 3px;
+
+
+
+}
+
+
+
+
+
+/*https://freefrontend.com/css-speech-bubbles/*/

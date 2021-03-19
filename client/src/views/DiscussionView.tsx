@@ -41,19 +41,19 @@ const DiscussionView = () => {
       <button onClick={handleDelete}>Delete Discussion</button>
       {messageList?.map((message, i) => {
         return (
-          <div key={i}>
-            <p>{message}</p>
+          <div className= "msgClass" key={i}>
+            <p className= "msg-text">{message}</p>
           </div>
         );
       })}
       <form>
-        <input 
+        <input className="send-msg-form"
           type="text"
           value={message}
           placeholder="Send a message..."
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button onClick={sendMessage}>Send</button>
+        <button className="send-button" onClick={sendMessage}>Send</button>
       </form>
     </div>
   );
