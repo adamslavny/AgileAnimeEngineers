@@ -42,6 +42,6 @@ export const deleteDiscussion = (categoryID: string, discussionID: string) => {
   return deleteDiscussionCall({ categoryID: categoryID, discussionID: discussionID }).then((result) => {return result.data});
 };
 
-export const getChatroomMessages = (categoryID: string, discussionID: string) => {
+export const getChatroomRef = (categoryID: string, discussionID: string) => {
   return db.collection(`Categories/${categoryID}/Discussions/${discussionID}/Messages`);
 };

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { deleteDiscussion, getChatroomMessages } from "../res/BackendConnection";
+import { deleteDiscussion, getChatroomRef } from "../res/BackendConnection";
 import firebase from 'firebase/app';
 import { message } from "../res/interfaces";
 
@@ -19,7 +19,7 @@ const DiscussionView = (props: {username: string}) => {
   
   const [messageList, setMessageList] = useState<Array<message>>();
   const [messageText, setMessageText] = useState("");
-  const [chatroomRef] = useState(getChatroomMessages(categoryID, discussionID));
+  const [chatroomRef] = useState(getChatroomRef(categoryID, discussionID));
 
   const handleDelete = () => {
     deleteDiscussion(categoryID, discussionID).then(() => {
@@ -33,7 +33,6 @@ const DiscussionView = (props: {username: string}) => {
       querySnapshot.forEach((message) => newMessageList.push({content: message.get("content"), author: message.get("author")}));
       setMessageList(newMessageList);
     });
-
   }, [chatroomRef]);
 
   const sendMessage = (event: React.MouseEvent<HTMLElement>) => {
