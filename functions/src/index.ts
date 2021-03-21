@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-// import * as types from "@google-cloud/firestore";
+import * as types from "@google-cloud/firestore";
 import * as admin from "firebase-admin";
 const cors = require('cors')({origin: true});
 
@@ -99,6 +99,24 @@ export const addDiscussion = functions.https.onRequest((request, response) => co
   response.send({data: {success: true, details: {id: newID}}});
 }));
 
+const recursiveDeleteCollection = async (collection: types.CollectionReference) => {
+  const documents = await collection.listDocuments();
+  documents.forEach((documentRef) => {
+    recursiveDeleteDocument(documentRef);
+  });
+};
+
+const recursiveDeleteDocument = async (document: types.DocumentReference) => {
+  const childCollections = await document.listCollections();
+  let promiseArray = new Array<Promise<void>>();
+  childCollections.forEach((collectionRef => {
+    promiseArray.push(recursiveDeleteCollection(collectionRef));
+  }));
+  Promise.all(promiseArray).then(() => {
+    document.delete();
+  });
+};
+
 interface deleteCategoryRequest{
   categoryID: string;
 };
@@ -109,8 +127,7 @@ export const deleteCategory= functions.https.onRequest((request, response) => co
 
   const { categoryID } = request.body.data as deleteCategoryRequest;
 
-  const category = db.doc(`Categories/${categoryID}`);
-  await category.delete();
+  await recursiveDeleteDocument(db.doc(`Categories/${categoryID}`));
 
   response.send({data: {}});
 }));
@@ -133,6 +150,6 @@ export const deleteDiscussion = functions.https.onRequest((request, response) =>
   }
 
   const discussion = category.collection("Discussions").doc(`${discussionID}`);
-  await discussion.delete();
+  await recursiveDeleteDocument(discussion);
   response.send({data: {success: true}});
 }));
