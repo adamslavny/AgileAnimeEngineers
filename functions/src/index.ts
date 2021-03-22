@@ -52,13 +52,14 @@ export const getDiscussions = functions.https.onRequest((request, response) => c
 
 interface addCategoryRequest {
   name: string;
+  tags: Array<string>;
 };
 
 export const addCategory = functions.https.onRequest((request, response) => cors(request, response, async () => {
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
-  const { name } = request.body.data as addCategoryRequest;
+  const { name, tags } = request.body.data as addCategoryRequest;
   
   const categories = db.collection("Categories");
   const sameNameCategories = await categories.where("name", "==", name).get();
@@ -67,7 +68,7 @@ export const addCategory = functions.https.onRequest((request, response) => cors
     return;
   }
 
-  const newID = (await categories.add({name: name})).id;
+  const newID = (await categories.add({name: name, tags: tags})).id;
   response.send({data: {success: true, details: {id: newID}}});
 }));
 
