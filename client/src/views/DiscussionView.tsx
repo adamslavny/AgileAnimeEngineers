@@ -65,19 +65,19 @@ const DiscussionView = (props: {username: string}) => {
       <button onClick={handleDelete}>Delete Discussion</button>
       {messageList?.map((message, i) => {
         return (
-          <div key={i}>
-            <p>{`${message.author}: ${message.content}`}</p>
+          <div className= "msgClass" key={i}>
+            <p className= "msg-text">{`${message.author}: ${message.content}`}</p>
           </div>
         );
       })}
       <form>
-        <input 
+        <input className="send-msg-form"
           type="text"
           value={messageText}
           placeholder="Send a message..."
           onChange={(e) => setMessageText(e.target.value)}
         />
-        <button onClick={sendMessage}>Send</button>
+        <button className="send-button" onClick={sendMessage}>Send</button>
       </form>
     </div>
   );
