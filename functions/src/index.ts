@@ -168,7 +168,7 @@ export const getTags = functions.https.onRequest((request, response) => cors(req
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
-  const tagsDoc = db.doc("Global/Tags");
+  const tagsDoc = db.doc("Globals/Tags");
   const tags = (await tagsDoc.get()).get("tags");
-  response.send({data: {tags: tags}});
+  response.send({data: tags});
 }));
