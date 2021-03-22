@@ -11,6 +11,7 @@ const CategoryView = () => {
   const [discussions, setDiscussions] = useState<Array<discussion>>();
   const [categoryName, setCategoryName] = useState("");
   const [validCategory, setValidCategory] = useState(true);
+  const [tags, setTags] = useState(Array<string>());
 
   const history = useHistory();
 
@@ -18,8 +19,9 @@ const CategoryView = () => {
     getDiscussions(id).then((discussionsData) => {
       setValidCategory(JSON.stringify(discussionsData) !== "{}");
       if(validCategory){
-        setDiscussions(discussionsData.discussions);
         setCategoryName(discussionsData.name);
+        setTags(discussionsData.categoryTags);
+        setDiscussions(discussionsData.discussions);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,7 +51,7 @@ const CategoryView = () => {
         <h4>{categoryName}</h4>
       </div>
       <button onClick={handleDelete}>Delete Category</button>
-      <AddDiscussionForm categoryID={id}/>
+      <AddDiscussionForm categoryID={id} defaultTags={tags}/>
       <DiscussionList discussions={discussions} id={id}/>
     </div>
   );

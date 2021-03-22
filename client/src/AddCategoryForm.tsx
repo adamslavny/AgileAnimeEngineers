@@ -18,7 +18,7 @@ const AddCategoryForm = () => {
       setSuggestions(result.map((ele: string, i: number) => {return { id: i, name: ele }}));
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const handleAddCategory = () => {
     if(name === ""){
