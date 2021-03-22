@@ -1,17 +1,27 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { deleteDiscussion, getChatroomMessages } from "../res/BackendConnection";
+import { deleteDiscussion, getChatroomRef } from "../res/BackendConnection";
 import firebase from 'firebase/app';
 import { message } from "../res/interfaces";
+import NotFound from "./NotFound";
 
 const DiscussionView = (props: {username: string}) => {
+  useEffect(() => {
+    if(props.username === ""){
+      alert("Please set a username in the top right.");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  
+
   const { categoryID, discussionID } = useParams() as {categoryID: string, discussionID: string};
   
   const history = useHistory();
   
   const [messageList, setMessageList] = useState<Array<message>>();
-  const [message, setMessage] = useState<message>({ content: "", author: props.username});
-  const [chatroomRef] = useState(getChatroomMessages(categoryID, discussionID));
+  const [messageText, setMessageText] = useState("");
+  const [chatroomRef] = useState(getChatroomRef(categoryID, discussionID));
+  const [validDiscussion, setValidDiscussion] = useState(true);
 
   const handleDelete = () => {
     deleteDiscussion(categoryID, discussionID).then(() => {
@@ -20,22 +30,35 @@ const DiscussionView = (props: {username: string}) => {
   }
   
   useEffect(() => {
-    chatroomRef.orderBy("time", "asc").onSnapshot((querySnapshot) => {
+    chatroomRef.get().then((chatroomSnapshot) => {
+      setValidDiscussion(chatroomSnapshot.exists);
+    });
+
+    chatroomRef.collection("Messages").orderBy("time", "asc").onSnapshot((querySnapshot) => {
       let newMessageList: Array<message> = [];
       querySnapshot.forEach((message) => newMessageList.push({content: message.get("content"), author: message.get("author")}));
       setMessageList(newMessageList);
     });
-
   }, [chatroomRef]);
 
   const sendMessage = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    if(message?.content === ""){
+    if(messageText === ""){
       return;
     }
-    chatroomRef.add({ content: message.content, time: firebase.firestore.Timestamp.now(), author: message.author });
-    setMessage({ content: "", author: props.username});
+    if(props.username === ""){
+      alert("Please set a username in the top right.");
+      return;
+    }
+    chatroomRef.collection("Messages").add({ content: messageText, time: firebase.firestore.Timestamp.now(), author: props.username });
+    setMessageText("");
   };
+
+  if(!validDiscussion){
+    return(
+      <NotFound />
+    );
+  }
 
   return (
     <div className="discussion-view">
@@ -50,9 +73,9 @@ const DiscussionView = (props: {username: string}) => {
       <form>
         <input className="send-msg-form"
           type="text"
-          value={message.content}
+          value={messageText}
           placeholder="Send a message..."
-          onChange={(e) => setMessage({ content: e.target.value, author: props.username})}
+          onChange={(e) => setMessageText(e.target.value)}
         />
         <button className="send-button" onClick={sendMessage}>Send</button>
       </form>

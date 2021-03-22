@@ -1,12 +1,23 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { addCategory } from "./res/BackendConnection";
 import { useHistory } from "react-router-dom";
+import ReactTags from "react-tag-autocomplete";
+import { Tag } from "react-tag-autocomplete";
+
 
 const AddCategoryForm = () => {
   const [addingCategory, setAddingCategory] = useState(false);
   const [name, setName] = useState("");
+  const [tags, setTags] = useState(Array<Tag>());
 
   const history = useHistory();
+
+  const suggestions = [
+    { id: 3, name: "Bananas" },
+    { id: 4, name: "Mangos" },
+    { id: 5, name: "Lemons" },
+    { id: 6, name: "Apricots" }
+  ];
 
   const handleAddCategory = () => {
     if(name === ""){
@@ -23,6 +34,14 @@ const AddCategoryForm = () => {
     });
   };
 
+  const addTag = (tag: Tag) => {
+    setTags([...tags, tag]);
+  };
+
+  const rmTag = (index: number) => {
+    setTags(tags.filter((element: Tag, i: number) => i !== index));
+  };
+
   if(addingCategory){
     return (
       <div className="new-category-form">
@@ -34,6 +53,11 @@ const AddCategoryForm = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          <ReactTags 
+            tags={tags}
+            suggestions={suggestions}
+            onDelete={rmTag}
+            onAddition={addTag} />
         </form>
         <button onClick={handleAddCategory}>Add Category</button>
       </div>
