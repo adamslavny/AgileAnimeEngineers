@@ -22,9 +22,10 @@ const AddCategoryForm = () => {
   const handleAddCategory = () => {
     if(name === ""){
       setAddingCategory(false);
+      setTags([]);
       return;
     }
-    addCategory(name).then((result) => {
+    addCategory(name, tags.map(ele => ele.name)).then((result) => {
       if(result.success){
         setAddingCategory(false);
         history.push(`/category/${result.details.id}`);
@@ -57,7 +58,8 @@ const AddCategoryForm = () => {
             tags={tags}
             suggestions={suggestions}
             onDelete={rmTag}
-            onAddition={addTag} />
+            onAddition={addTag}
+            allowNew={true} />
         </form>
         <button onClick={handleAddCategory}>Add Category</button>
       </div>

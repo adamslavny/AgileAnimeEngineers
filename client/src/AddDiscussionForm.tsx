@@ -15,7 +15,7 @@ const AddDiscussionForm = (props: {categoryID: string}) => {
       setAddingDiscussion(false);
       return;
     }
-    addDiscussion(name, categoryID).then((result) => {
+    addDiscussion(name, categoryID, []).then((result) => {
       if(result.success){
         setAddingDiscussion(false);
         history.push(`/discussion/${categoryID}/${result.details.id}`);
