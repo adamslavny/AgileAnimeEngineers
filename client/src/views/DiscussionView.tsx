@@ -3,6 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { deleteDiscussion, getChatroomRef } from "../res/BackendConnection";
 import firebase from 'firebase/app';
 import { message } from "../res/interfaces";
+import NotFound from "./NotFound";
 
 const DiscussionView = (props: {username: string}) => {
   useEffect(() => {
@@ -20,6 +21,7 @@ const DiscussionView = (props: {username: string}) => {
   const [messageList, setMessageList] = useState<Array<message>>();
   const [messageText, setMessageText] = useState("");
   const [chatroomRef] = useState(getChatroomRef(categoryID, discussionID));
+  const [validDiscussion, setValidDiscussion] = useState(true);
 
   const handleDelete = () => {
     deleteDiscussion(categoryID, discussionID).then(() => {
@@ -28,7 +30,11 @@ const DiscussionView = (props: {username: string}) => {
   }
   
   useEffect(() => {
-    chatroomRef.orderBy("time", "asc").onSnapshot((querySnapshot) => {
+    chatroomRef.get().then((chatroomSnapshot) => {
+      setValidDiscussion(chatroomSnapshot.exists);
+    });
+
+    chatroomRef.collection("Messages").orderBy("time", "asc").onSnapshot((querySnapshot) => {
       let newMessageList: Array<message> = [];
       querySnapshot.forEach((message) => newMessageList.push({content: message.get("content"), author: message.get("author")}));
       setMessageList(newMessageList);
@@ -44,9 +50,15 @@ const DiscussionView = (props: {username: string}) => {
       alert("Please set a username in the top right.");
       return;
     }
-    chatroomRef.add({ content: messageText, time: firebase.firestore.Timestamp.now(), author: props.username });
+    chatroomRef.collection("Messages").add({ content: messageText, time: firebase.firestore.Timestamp.now(), author: props.username });
     setMessageText("");
   };
+
+  if(!validDiscussion){
+    return(
+      <NotFound />
+    );
+  }
 
   return (
     <div className="discussion-view">
