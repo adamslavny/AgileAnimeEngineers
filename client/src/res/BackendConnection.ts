@@ -45,3 +45,9 @@ export const deleteDiscussion = (categoryID: string, discussionID: string) => {
 export const getChatroomRef = (categoryID: string, discussionID: string) => {
     return db.doc(`Categories/${categoryID}/Discussions/${discussionID}`);
 };
+
+export const getTags = () => {
+  console.log("calling deleteDiscussion()");
+  const getTagsCall = functions.httpsCallable("getTags");
+  return getTagsCall().then((result) => {return result.data});
+};

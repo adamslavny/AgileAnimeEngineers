@@ -163,3 +163,12 @@ export const deleteDiscussion = functions.https.onRequest((request, response) =>
   await recursiveDeleteDocument(discussion);
   response.send({data: {success: true}});
 }));
+
+export const getTags = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const tagsDoc = db.doc("Global/Tags");
+  const tags = (await tagsDoc.get()).get("tags");
+  response.send({data: {tags: tags}});
+}));
