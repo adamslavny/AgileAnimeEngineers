@@ -1,23 +1,24 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { addCategory } from "./res/BackendConnection";
 import { useHistory } from "react-router-dom";
-import ReactTags from "react-tag-autocomplete";
-import { Tag } from "react-tag-autocomplete";
+import ReactTags, { Tag } from "react-tag-autocomplete";
+import { getTags } from "./res/BackendConnection";
 
 
 const AddCategoryForm = () => {
   const [addingCategory, setAddingCategory] = useState(false);
   const [name, setName] = useState("");
   const [tags, setTags] = useState(Array<Tag>());
+  const [suggestions, setSuggestions] = useState(Array<Tag>());
 
   const history = useHistory();
 
-  const suggestions = [
-    { id: 3, name: "Bananas" },
-    { id: 4, name: "Mangos" },
-    { id: 5, name: "Lemons" },
-    { id: 6, name: "Apricots" }
-  ];
+  useEffect(() => {
+    getTags().then((result) => {
+      setSuggestions(result.map((ele: string, i: number) => {return { id: i, name: ele }}));
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleAddCategory = () => {
     if(name === ""){
