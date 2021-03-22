@@ -75,13 +75,14 @@ export const addCategory = functions.https.onRequest((request, response) => cors
 interface addDiscussionRequest {
   name: string;
   categoryID: string;
+  tags: Array<string>;
 };
 
 export const addDiscussion = functions.https.onRequest((request, response) => cors(request, response, async () => {
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
-  const { name, categoryID } = request.body.data as addDiscussionRequest;
+  const { name, categoryID, tags } = request.body.data as addDiscussionRequest;
 
   const category = db.doc(`Categories/${categoryID}`);
   if(!(await category.get()).exists){
@@ -96,7 +97,7 @@ export const addDiscussion = functions.https.onRequest((request, response) => co
     return;
   }
   
-  const newID = (await categoryDiscussions.add({name: name})).id;
+  const newID = (await categoryDiscussions.add({name: name, tags: tags})).id;
   response.send({data: {success: true, details: {id: newID}}});
 }));
 
