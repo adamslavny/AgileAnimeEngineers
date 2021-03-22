@@ -153,3 +153,20 @@ export const deleteDiscussion = functions.https.onRequest((request, response) =>
   await recursiveDeleteDocument(discussion);
   response.send({data: {success: true}});
 }));
+
+interface addTagsRequest {
+  tags: Array<string>;
+};
+
+export const addTags = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const { tags } = request.body.data as addTagsRequest;
+
+  const tagsRef = db.doc("Globals/Tags");
+  const oldTags = (await tagsRef.get()).get("tags");
+  tagsRef.update({tags: [...new Set(oldTags.concat(tags))]});
+
+  response.send({data: {}});
+}));
