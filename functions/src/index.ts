@@ -55,6 +55,12 @@ interface addCategoryRequest {
   tags: Array<string>;
 };
 
+const addTags = async (tags: Array<string>) => {
+  const tagsRef = db.doc("Globals/Tags");
+  const oldTags = (await tagsRef.get()).get("tags");
+  tagsRef.update({tags: [...new Set(oldTags.concat(tags))]});
+};
+
 export const addCategory = functions.https.onRequest((request, response) => cors(request, response, async () => {
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
@@ -68,6 +74,7 @@ export const addCategory = functions.https.onRequest((request, response) => cors
     return;
   }
 
+  addTags(tags);
   const newID = (await categories.add({name: name, tags: tags})).id;
   response.send({data: {success: true, details: {id: newID}}});
 }));
@@ -97,6 +104,7 @@ export const addDiscussion = functions.https.onRequest((request, response) => co
     return;
   }
   
+  addTags(tags);
   const newID = (await categoryDiscussions.add({name: name, tags: tags})).id;
   response.send({data: {success: true, details: {id: newID}}});
 }));
@@ -154,21 +162,4 @@ export const deleteDiscussion = functions.https.onRequest((request, response) =>
   const discussion = category.collection("Discussions").doc(`${discussionID}`);
   await recursiveDeleteDocument(discussion);
   response.send({data: {success: true}});
-}));
-
-interface addTagsRequest {
-  tags: Array<string>;
-};
-
-export const addTags = functions.https.onRequest((request, response) => cors(request, response, async () => {
-  response.set('Access-Control-Allow-Origin', '*');
-  log("body", request.body);
-
-  const { tags } = request.body.data as addTagsRequest;
-
-  const tagsRef = db.doc("Globals/Tags");
-  const oldTags = (await tagsRef.get()).get("tags");
-  tagsRef.update({tags: [...new Set(oldTags.concat(tags))]});
-
-  response.send({data: {}});
 }));
