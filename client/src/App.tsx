@@ -34,7 +34,7 @@ function App() {
             <Nav.Item style={{padding: "5px"}}>Link2</Nav.Item>
             <Nav.Item style={{padding: "5px"}}>Link3</Nav.Item>
           </Nav>
-          <Form inline>
+          <Form inline className = "username">
             <FormControl
               type="text"
               placeholder="username"

@@ -46,7 +46,7 @@ const AddDiscussionForm = (props: {categoryID: string, defaultTags: Array<string
 
   if(addingDiscussion){
     return (
-      <div className="new-discussion-form">
+      <div>
         <form>
           <label>Discussion name: </label>
           <input
@@ -62,6 +62,7 @@ const AddDiscussionForm = (props: {categoryID: string, defaultTags: Array<string
             onAddition={addTag}
             allowNew={true} />
         </form>
+        
         <button onClick={handleAddCategory}>Add Discussion</button>
       </div>
     );
