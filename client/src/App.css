@@ -233,17 +233,18 @@ label{
 
 
   position:fixed;
-  width:10%;
+  width:150px;
   bottom: 0px;
-  right: 330px;
+  right: auto;
   z-index:4000;
-  margin: auto;
+  margin-left: 515px;
 }
 
 .send-msg-form{
   background-color: #ffffff;
   position:fixed;
-  width:30%;
+  width: 500px;
+  right: auto;
   bottom: 0px;
   z-index:4000;
   margin: auto;
@@ -254,6 +255,9 @@ label{
   margin: 4px;
 }
 
+.whatever{
+  background-color: #ff0095;
+}
 
 
 
