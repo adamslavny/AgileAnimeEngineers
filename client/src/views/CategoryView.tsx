@@ -5,6 +5,7 @@ import { getDiscussions, deleteCategory } from "../res/BackendConnection";
 import NotFound from "./NotFound";
 import { discussion } from "./../res/interfaces";
 import AddDiscussionForm from "../AddDiscussionForm";
+import FilterTags from "../FilterTags";
 
 const CategoryView = () => {
   const { id } = useParams() as {id: string};
@@ -12,6 +13,7 @@ const CategoryView = () => {
   const [categoryName, setCategoryName] = useState("");
   const [validCategory, setValidCategory] = useState(true);
   const [tags, setTags] = useState(Array<string>());
+  const [filterTags, setFilterTags] = useState(Array<string>());
 
   const history = useHistory();
 
@@ -26,6 +28,10 @@ const CategoryView = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  useEffect(() => {
+    console.log(filterTags);
+  }, [filterTags]);
 
   if(!validCategory){
     return (
@@ -45,6 +51,19 @@ const CategoryView = () => {
     });
   }
 
+  const filterDiscussions = () => {
+    if(filterTags.length === 0){
+      return discussions;
+    }
+    return discussions.filter((ele) => {
+      return filterTags.every((ele2) => {
+        return ele.tags.includes(ele2);
+      });
+    });
+  };
+
+  
+
   return (
     <div className="category-view">
       <div>
@@ -52,7 +71,8 @@ const CategoryView = () => {
       </div>
       <button onClick={handleDelete}>Delete Category</button>
       <AddDiscussionForm categoryID={id} defaultTags={tags}/>
-      <DiscussionList discussions={discussions} id={id}/>
+      <FilterTags updateFilterTags={setFilterTags} />
+      <DiscussionList discussions={filterDiscussions()} id={id}/>
     </div>
   );
 };
