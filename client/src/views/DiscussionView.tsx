@@ -74,12 +74,14 @@ const DiscussionView = (props: {username: string}) => {
       {messageList?.map((message, i) => {
         return (
           <div className= "msgClass" key={i}>
-            <span>
-              <p className= "msg-text">{`${message.author}: ${message.content}`}</p>
-            </span>
-            <span>
-              <p>{formatDate(message.time)}</p>
-            </span>
+            <p>
+              <span className="msg-text">
+                {`${message.author}: ${message.content}`}
+              </span>
+              <span className="msg-time">
+              {formatDate(message.time)}
+              </span>
+              </p>
           </div>
         );
       })}
