@@ -299,6 +299,12 @@ label{
   margin-bottom: 2px;
 }
 
+.centered-tags .react-tags {
+  margin: auto;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
 .react-tags.is-focused {
   border-color: #B1B1B1;
 }

@@ -57,12 +57,14 @@ const AddDiscussionForm = (props: {categoryID: string, defaultTags: Array<string
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <ReactTags
-            tags={tags}
-            suggestions={suggestions}
-            onDelete={rmTag}
-            onAddition={addTag}
-            allowNew={true} />
+          <div className="centered-tags">
+            <ReactTags
+              tags={tags}
+              suggestions={suggestions}
+              onDelete={rmTag}
+              onAddition={addTag}
+              allowNew={true} />
+          </div>
         </form>
         <button onClick={handleAddCategory}>Add Discussion</button>
       </div>
