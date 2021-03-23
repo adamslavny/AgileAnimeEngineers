@@ -41,16 +41,6 @@ function App() {
               onChange={(e) => {setUsername(e.target.value)}}
             />
           </Form>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-info"><img
-              alt="search"
-              src={search}
-              width="25"
-              height="25"
-              className="d-inline-block align-top"
-              />{' '}</Button>
-          </Form>
         </Navbar>
 
         <h2 className='header'>
