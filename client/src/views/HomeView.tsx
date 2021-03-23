@@ -6,7 +6,7 @@ import { category } from "../res/interfaces";
 import FilterTags from "../FilterTags";
 
 const HomeView = () => {
-  const [categories, setCategories] = useState(Array<category>());
+  const [categories, setCategories] = useState<Array<category>>();
   const [filterTags, setFilterTags] = useState(Array<string>());
 
   useEffect(() => {
@@ -15,6 +15,12 @@ const HomeView = () => {
       setCategories(result);
     });
   }, []);
+
+  if(categories === undefined){
+    return (
+      <p>Loading...</p>
+    );
+  }
 
   const filterCategories = () => {
     if(filterTags.length === 0){
@@ -27,22 +33,11 @@ const HomeView = () => {
     });
   };
 
-  const renderCategories = () => {
-    if(categories === undefined){
-      return (
-        <p>Loading...</p>
-      );
-    }
-    return(
-      <CategoryList categories={filterCategories()}/>
-    );
-  };
-
   return (
     <div className="home-view">
       <AddCategoryForm />
       <FilterTags updateFilterTags={setFilterTags} />
-      {renderCategories()}
+      <CategoryList categories={filterCategories()}/>
     </div>
   );
 };
