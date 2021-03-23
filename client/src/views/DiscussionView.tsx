@@ -36,7 +36,7 @@ const DiscussionView = (props: {username: string}) => {
 
     chatroomRef.collection("Messages").orderBy("time", "asc").onSnapshot((querySnapshot) => {
       let newMessageList: Array<message> = [];
-      querySnapshot.forEach((message) => newMessageList.push({content: message.get("content"), author: message.get("author")}));
+      querySnapshot.forEach((message) => newMessageList.push({content: message.get("content"), author: message.get("author"), time: message.get("time").toDate()}));
       setMessageList(newMessageList);
     });
   }, [chatroomRef]);
@@ -54,6 +54,14 @@ const DiscussionView = (props: {username: string}) => {
     setMessageText("");
   };
 
+  const formatDate = (date: Date) => {
+    const now = Date.now();
+    if(now - date.getTime() < 86400000){
+      return `${date.getHours()}:${date.getMinutes()}`;
+    }
+    return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+  }
+
   if(!validDiscussion){
     return(
       <NotFound />
@@ -66,7 +74,12 @@ const DiscussionView = (props: {username: string}) => {
       {messageList?.map((message, i) => {
         return (
           <div className= "msgClass" key={i}>
-            <p className= "msg-text">{`${message.author}: ${message.content}`}</p>
+            <span>
+              <p className= "msg-text">{`${message.author}: ${message.content}`}</p>
+            </span>
+            <span>
+              <p>{formatDate(message.time)}</p>
+            </span>
           </div>
         );
       })}

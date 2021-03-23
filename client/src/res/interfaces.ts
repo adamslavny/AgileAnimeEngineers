@@ -13,4 +13,5 @@ export interface discussion{
 export interface message{
   content: string;
   author: string;
+  time: Date;
 };
