@@ -109,6 +109,30 @@ export const addDiscussion = functions.https.onRequest((request, response) => co
   response.send({data: {success: true, details: {id: newID}}});
 }));
 
+const trimTags = async () => {
+
+  let allTags = new Set<string>();
+  let promsToAwait = Array<Promise<any>>();
+  const categories = db.collection("Categories");
+  for(let category of await categories.listDocuments()){
+    const categoryTagsProm = category.get();
+    promsToAwait.push(categoryTagsProm);
+    categoryTagsProm.then((categorySnapshot) => {
+      allTags = new Set([...allTags, ...categorySnapshot.get("tags")]);
+    });
+    const discussions = category.collection("Discussions");
+    for(let discussion of await discussions.listDocuments()){
+      const discussionTagsProm = discussion.get();
+      promsToAwait.push(discussionTagsProm);
+      discussionTagsProm.then((discussionSnapshot) => {
+        allTags = new Set([...allTags, ...discussionSnapshot.get("tags")]);
+      });
+    }
+  }
+  await Promise.all(promsToAwait);
+  db.doc("Globals/Tags").update({tags: [...allTags]});
+};
+
 const recursiveDeleteCollection = async (collection: types.CollectionReference) => {
   const documents = await collection.listDocuments();
   documents.forEach((documentRef) => {
@@ -122,9 +146,8 @@ const recursiveDeleteDocument = async (document: types.DocumentReference) => {
   childCollections.forEach((collectionRef => {
     promiseArray.push(recursiveDeleteCollection(collectionRef));
   }));
-  Promise.all(promiseArray).then(() => {
-    document.delete();
-  });
+  await Promise.all(promiseArray);
+  document.delete();
 };
 
 interface deleteCategoryRequest{
@@ -138,7 +161,7 @@ export const deleteCategory= functions.https.onRequest((request, response) => co
   const { categoryID } = request.body.data as deleteCategoryRequest;
 
   await recursiveDeleteDocument(db.doc(`Categories/${categoryID}`));
-
+  trimTags();
   response.send({data: {}});
 }));
 
@@ -161,6 +184,7 @@ export const deleteDiscussion = functions.https.onRequest((request, response) =>
 
   const discussion = category.collection("Discussions").doc(`${discussionID}`);
   await recursiveDeleteDocument(discussion);
+  trimTags();
   response.send({data: {success: true}});
 }));
 
