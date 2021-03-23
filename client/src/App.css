@@ -185,6 +185,8 @@ label{
 
 .msgClass p{
   margin-bottom: 2px;
+  inline-size: 600px;
+  overflow-wrap:break-word ;
 }
 
 .msg-text{
