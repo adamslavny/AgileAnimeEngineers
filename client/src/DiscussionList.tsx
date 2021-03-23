@@ -25,7 +25,7 @@ const DiscussionList = (props: {discussions: Array<discussion>, id: string}) => 
               <Card className="no-border-plz">
                 <Card.Body>
                   <Card.Title>{discussion.name}</Card.Title>
-                  <Card.Text>Some quick example text!</Card.Text>
+                  <Card.Text>{discussion.tags.join(" ")}</Card.Text>
                 </Card.Body>
               </Card>
             </Link>

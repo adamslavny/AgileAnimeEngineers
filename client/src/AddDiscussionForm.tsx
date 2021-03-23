@@ -1,21 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import ReactTags, { Tag } from "react-tag-autocomplete";
 import { addDiscussion } from "./res/BackendConnection";
+import { getTags } from "./res/BackendConnection";
 
-const AddDiscussionForm = (props: {categoryID: string}) => {
-  const { categoryID } = props;
+const AddDiscussionForm = (props: {categoryID: string, defaultTags: Array<string>}) => {
+  const { categoryID, defaultTags } = props;
 
   const [addingDiscussion, setAddingDiscussion] = useState(false);
   const [name, setName] = useState("");
+  const [tags, setTags] = useState(defaultTags.map((ele: string, i: number) => {return {id: i, name: ele} as Tag}));
+  const [suggestions, setSuggestions] = useState(Array<Tag>());
 
   const history = useHistory();
+
+  useEffect(() => {
+    getTags().then((result) => {
+      setSuggestions(result.map((ele: string, i: number) => {return { id: i, name: ele }}));
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleAddCategory = () => {
     if(name === ""){
       setAddingDiscussion(false);
       return;
     }
-    addDiscussion(name, categoryID).then((result) => {
+    addDiscussion(name, categoryID, tags.map(ele => ele.name)).then((result) => {
       if(result.success){
         setAddingDiscussion(false);
         history.push(`/discussion/${categoryID}/${result.details.id}`);
@@ -23,6 +34,16 @@ const AddDiscussionForm = (props: {categoryID: string}) => {
       }
 
     });
+  };
+
+  const addTag = (tag: Tag) => {
+    if(tags.find(ele => ele.name === tag.name) === undefined){
+      setTags([...tags, tag]);
+    }
+  };
+
+  const rmTag = (index: number) => {
+    setTags(tags.filter((element: Tag, i: number) => i !== index));
   };
 
   if(addingDiscussion){
@@ -36,6 +57,12 @@ const AddDiscussionForm = (props: {categoryID: string}) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          <ReactTags
+            tags={tags}
+            suggestions={suggestions}
+            onDelete={rmTag}
+            onAddition={addTag}
+            allowNew={true} />
         </form>
         <button onClick={handleAddCategory}>Add Discussion</button>
       </div>
