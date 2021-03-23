@@ -1,5 +1,3 @@
-import { time } from "console";
-import { SSL_OP_EPHEMERAL_RSA } from "constants";
 import { useState, useEffect } from "react";
 import ReactTags, { Tag } from "react-tag-autocomplete"
 import { getTags } from "./res/BackendConnection";
@@ -19,7 +17,7 @@ const FilterTags = (props: {updateFilterTags: (newTags: Array<string>) => void})
 
   useEffect(() => {
     updateFilterTags(tags.map(ele => ele.name));
-  }, [tags]);
+  }, [tags, updateFilterTags]);
 
   const addTag = (tag: Tag) => {
     if(tags.find(ele => ele.name === tag.name) === undefined){

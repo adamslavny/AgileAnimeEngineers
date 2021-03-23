@@ -6,9 +6,8 @@ import NotFound from './views/NotFound';
 import HomeView from './views/HomeView';
 import DiscussionView from './views/DiscussionView';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Navbar, Nav, Form, FormControl, Button} from 'react-bootstrap';
+import { Navbar, Nav, Form, FormControl } from 'react-bootstrap';
 import gator from './icons/gator.svg';
-import search from './icons/search.svg';
 
 function App() {
   const [username, setUsername] = useState("");
