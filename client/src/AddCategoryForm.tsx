@@ -37,7 +37,9 @@ const AddCategoryForm = () => {
   };
 
   const addTag = (tag: Tag) => {
-    setTags([...tags, tag]);
+    if(tags.find(ele => ele.name === tag.name) === undefined){
+      setTags([...tags, tag]);
+    }
   };
 
   const rmTag = (index: number) => {
