@@ -34,22 +34,12 @@ function App() {
             <Nav.Item style={{padding: "5px"}}>Link2</Nav.Item>
             <Nav.Item style={{padding: "5px"}}>Link3</Nav.Item>
           </Nav>
-          <Form inline>
+          <Form inline className = "username">
             <FormControl
               type="text"
               placeholder="username"
               onChange={(e) => {setUsername(e.target.value)}}
             />
-          </Form>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-info"><img
-              alt="search"
-              src={search}
-              width="25"
-              height="25"
-              className="d-inline-block align-top"
-              />{' '}</Button>
           </Form>
         </Navbar>
 
