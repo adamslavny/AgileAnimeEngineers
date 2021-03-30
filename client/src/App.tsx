@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from "react";
 import './App.css';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import CategoryView from './views/CategoryView';
@@ -6,11 +6,11 @@ import NotFound from './views/NotFound';
 import HomeView from './views/HomeView';
 import DiscussionView from './views/DiscussionView';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Navbar, Nav, Form, FormControl, Button} from 'react-bootstrap';
+import { Navbar, Nav, Form, FormControl } from 'react-bootstrap';
 import gator from './icons/gator.svg';
-import search from './icons/search.svg';
 
 function App() {
+  const [username, setUsername] = useState("");
   return (
     <Router>
       <div className="App">
@@ -24,7 +24,7 @@ function App() {
                 width="30"
                 height="30"
                 className="d-inline-block align-top"
-              />{' '}
+                />{' '}
               Animex
             </Navbar.Brand>
           </Link>
@@ -33,15 +33,12 @@ function App() {
             <Nav.Item style={{padding: "5px"}}>Link2</Nav.Item>
             <Nav.Item style={{padding: "5px"}}>Link3</Nav.Item>
           </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-info"><img
-              alt="search"
-              src={search}
-              width="25"
-              height="25"
-              className="d-inline-block align-top"
-            />{' '}</Button>
+          <Form inline className = "username">
+            <FormControl
+              type="text"
+              placeholder="username"
+              onChange={(e) => {setUsername(e.target.value)}}
+            />
           </Form>
         </Navbar>
 
@@ -52,7 +49,7 @@ function App() {
               width="75"
               height="75"
               className="d-inline-block align-top"
-            />{' '}</h2>
+              />{' '}</h2>
         <Switch>
           <Route exact path="/">
             <HomeView />
@@ -61,7 +58,7 @@ function App() {
             <CategoryView />
           </Route>
           <Route path="/discussion/:categoryID/:discussionID">
-            <DiscussionView />
+            <DiscussionView username={username}/>
           </Route>
           <Route path="*">
             <NotFound />

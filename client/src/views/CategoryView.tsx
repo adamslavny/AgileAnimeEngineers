@@ -5,12 +5,15 @@ import { getDiscussions, deleteCategory } from "../res/BackendConnection";
 import NotFound from "./NotFound";
 import { discussion } from "./../res/interfaces";
 import AddDiscussionForm from "../AddDiscussionForm";
+import FilterTags from "../FilterTags";
 
 const CategoryView = () => {
   const { id } = useParams() as {id: string};
   const [discussions, setDiscussions] = useState<Array<discussion>>();
   const [categoryName, setCategoryName] = useState("");
   const [validCategory, setValidCategory] = useState(true);
+  const [tags, setTags] = useState(Array<string>());
+  const [filterTags, setFilterTags] = useState(Array<string>());
 
   const history = useHistory();
 
@@ -18,12 +21,17 @@ const CategoryView = () => {
     getDiscussions(id).then((discussionsData) => {
       setValidCategory(JSON.stringify(discussionsData) !== "{}");
       if(validCategory){
-        setDiscussions(discussionsData.discussions);
         setCategoryName(discussionsData.name);
+        setTags(discussionsData.categoryTags);
+        setDiscussions(discussionsData.discussions);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  useEffect(() => {
+    console.log(filterTags);
+  }, [filterTags]);
 
   if(!validCategory){
     return (
@@ -43,14 +51,28 @@ const CategoryView = () => {
     });
   }
 
+  const filterDiscussions = () => {
+    if(filterTags.length === 0){
+      return discussions;
+    }
+    return discussions.filter((ele) => {
+      return filterTags.every((ele2) => {
+        return ele.tags.includes(ele2);
+      });
+    });
+  };
+
+  
+
   return (
     <div className="category-view">
       <div>
         <h4>{categoryName}</h4>
       </div>
       <button onClick={handleDelete}>Delete Category</button>
-      <AddDiscussionForm categoryID={id}/>
-      <DiscussionList discussions={discussions} id={id}/>
+      <AddDiscussionForm categoryID={id} defaultTags={tags}/>
+      <FilterTags updateFilterTags={setFilterTags} />
+      <DiscussionList discussions={filterDiscussions()} id={id}/>
     </div>
   );
 };

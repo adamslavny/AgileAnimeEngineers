@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-// import * as types from "@google-cloud/firestore";
+import * as types from "@google-cloud/firestore";
 import * as admin from "firebase-admin";
 const cors = require('cors')({origin: true});
 
@@ -23,7 +23,7 @@ export const getCategories = functions.https.onRequest((request, response) => co
   log("body", request.body);
 
   const categoriesSnapshot = await db.collection("Categories").get();
-  const categoryData = categoriesSnapshot.docs.map((doc) => {return {name: doc.data().name, id: doc.id}});
+  const categoryData = categoriesSnapshot.docs.map((doc) => {return {name: doc.data().name, id: doc.id, tags: doc.data().tags}});
   response.send({data: categoryData});
 }));
 
@@ -46,19 +46,26 @@ export const getDiscussions = functions.https.onRequest((request, response) => c
   }
   const discussionsSnapshot = await categoryRef.collection("Discussions").get();
 
-  const discussionData = discussionsSnapshot.docs.map((doc) => {return {name: doc.data().name, id: doc.id}});
-  response.send({data: { name: categoryData.name, discussions: discussionData}});
+  const discussionData = discussionsSnapshot.docs.map((doc) => {return {name: doc.data().name, id: doc.id, tags: doc.data().tags}});
+  response.send({data: { name: categoryData.name, categoryTags: categoryData.tags, discussions: discussionData}});
 }));
 
 interface addCategoryRequest {
   name: string;
+  tags: Array<string>;
+};
+
+const addTags = async (tags: Array<string>) => {
+  const tagsRef = db.doc("Globals/Tags");
+  const oldTags = (await tagsRef.get()).get("tags");
+  tagsRef.update({tags: [...new Set(oldTags.concat(tags))]});
 };
 
 export const addCategory = functions.https.onRequest((request, response) => cors(request, response, async () => {
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
-  const { name } = request.body.data as addCategoryRequest;
+  const { name, tags } = request.body.data as addCategoryRequest;
   
   const categories = db.collection("Categories");
   const sameNameCategories = await categories.where("name", "==", name).get();
@@ -67,20 +74,22 @@ export const addCategory = functions.https.onRequest((request, response) => cors
     return;
   }
 
-  const newID = (await categories.add({name: name})).id;
+  addTags(tags);
+  const newID = (await categories.add({name: name, tags: tags})).id;
   response.send({data: {success: true, details: {id: newID}}});
 }));
 
 interface addDiscussionRequest {
   name: string;
   categoryID: string;
+  tags: Array<string>;
 };
 
 export const addDiscussion = functions.https.onRequest((request, response) => cors(request, response, async () => {
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
-  const { name, categoryID } = request.body.data as addDiscussionRequest;
+  const { name, categoryID, tags } = request.body.data as addDiscussionRequest;
 
   const category = db.doc(`Categories/${categoryID}`);
   if(!(await category.get()).exists){
@@ -95,9 +104,51 @@ export const addDiscussion = functions.https.onRequest((request, response) => co
     return;
   }
   
-  const newID = (await categoryDiscussions.add({name: name})).id;
+  addTags(tags);
+  const newID = (await categoryDiscussions.add({name: name, tags: tags})).id;
   response.send({data: {success: true, details: {id: newID}}});
 }));
+
+const trimTags = async () => {
+
+  let allTags = new Set<string>();
+  let promsToAwait = Array<Promise<any>>();
+  const categories = db.collection("Categories");
+  for(let category of await categories.listDocuments()){
+    const categoryTagsProm = category.get();
+    promsToAwait.push(categoryTagsProm);
+    categoryTagsProm.then((categorySnapshot) => {
+      allTags = new Set([...allTags, ...categorySnapshot.get("tags")]);
+    });
+    const discussions = category.collection("Discussions");
+    for(let discussion of await discussions.listDocuments()){
+      const discussionTagsProm = discussion.get();
+      promsToAwait.push(discussionTagsProm);
+      discussionTagsProm.then((discussionSnapshot) => {
+        allTags = new Set([...allTags, ...discussionSnapshot.get("tags")]);
+      });
+    }
+  }
+  await Promise.all(promsToAwait);
+  db.doc("Globals/Tags").update({tags: [...allTags]});
+};
+
+const recursiveDeleteCollection = async (collection: types.CollectionReference) => {
+  const documents = await collection.listDocuments();
+  documents.forEach((documentRef) => {
+    recursiveDeleteDocument(documentRef);
+  });
+};
+
+const recursiveDeleteDocument = async (document: types.DocumentReference) => {
+  const childCollections = await document.listCollections();
+  let promiseArray = new Array<Promise<void>>();
+  childCollections.forEach((collectionRef => {
+    promiseArray.push(recursiveDeleteCollection(collectionRef));
+  }));
+  await Promise.all(promiseArray);
+  document.delete();
+};
 
 interface deleteCategoryRequest{
   categoryID: string;
@@ -109,9 +160,8 @@ export const deleteCategory= functions.https.onRequest((request, response) => co
 
   const { categoryID } = request.body.data as deleteCategoryRequest;
 
-  const category = db.doc(`Categories/${categoryID}`);
-  await category.delete();
-
+  await recursiveDeleteDocument(db.doc(`Categories/${categoryID}`));
+  trimTags();
   response.send({data: {}});
 }));
 
@@ -133,6 +183,16 @@ export const deleteDiscussion = functions.https.onRequest((request, response) =>
   }
 
   const discussion = category.collection("Discussions").doc(`${discussionID}`);
-  await discussion.delete();
+  await recursiveDeleteDocument(discussion);
+  trimTags();
   response.send({data: {success: true}});
+}));
+
+export const getTags = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const tagsDoc = db.doc("Globals/Tags");
+  const tags = (await tagsDoc.get()).get("tags");
+  response.send({data: tags});
 }));

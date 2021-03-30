@@ -25,7 +25,7 @@ const CategoryList = (props: {categories: Array<category>}) => {
               <Card className="no-border-plz">
                 <Card.Body>
                   <Card.Title>{category.name}</Card.Title>
-                  <Card.Text>Some quick example text!</Card.Text>
+                  <Card.Text>{category.tags.join(" ")}</Card.Text>
                 </Card.Body>
               </Card>
             </Link>

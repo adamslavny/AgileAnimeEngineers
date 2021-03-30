@@ -1,4 +1,4 @@
-import { functions } from './firebase';
+import { db, functions } from './firebase';
 
 /*
 Note:
@@ -18,16 +18,16 @@ export const getDiscussions = (categoryName: string) => {
   return getDiscussionsCall({ category: categoryName }).then((result) => {return result.data});
 };
 
-export const addCategory = (categoryName: string) => {
-  console.log(`calling addCategory(${categoryName})`);
+export const addCategory = (categoryName: string, tags: Array<string>) => {
+  console.log(`calling addCategory(${categoryName}, ${tags})`);
   const addCategoryCall = functions.httpsCallable("addCategory");
-  return addCategoryCall({ name: categoryName }).then((result) => {return result.data});
+  return addCategoryCall({ name: categoryName, tags: tags }).then((result) => {return result.data});
 };
 
-export const addDiscussion = (discussionName: string, categoryID: string) => {
-  console.log(`calling addDiscussion(${discussionName}, ${categoryID})`);
+export const addDiscussion = (discussionName: string, categoryID: string, tags: Array<string>) => {
+  console.log(`calling addDiscussion(${discussionName}, ${categoryID}, ${tags})`);
   const addDiscussionCall = functions.httpsCallable("addDiscussion");
-  return addDiscussionCall({ name: discussionName, categoryID: categoryID }).then((result) => {return result.data});
+  return addDiscussionCall({ name: discussionName, categoryID: categoryID, tags: tags }).then((result) => {return result.data});
 };
 
 export const deleteCategory = (categoryID: string) => {
@@ -37,8 +37,17 @@ export const deleteCategory = (categoryID: string) => {
 };
 
 export const deleteDiscussion = (categoryID: string, discussionID: string) => {
-  console.log(`calling deleteDIscussion((${categoryID}, ${discussionID})`);
+  console.log(`calling deleteDiscussion(${categoryID}, ${discussionID})`);
   const deleteDiscussionCall = functions.httpsCallable("deleteDiscussion");
   return deleteDiscussionCall({ categoryID: categoryID, discussionID: discussionID }).then((result) => {return result.data});
 };
 
+export const getChatroomRef = (categoryID: string, discussionID: string) => {
+    return db.doc(`Categories/${categoryID}/Discussions/${discussionID}`);
+};
+
+export const getTags = () => {
+  console.log("calling deleteDiscussion()");
+  const getTagsCall = functions.httpsCallable("getTags");
+  return getTagsCall().then((result) => {return result.data});
+};
