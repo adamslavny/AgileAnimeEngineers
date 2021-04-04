@@ -116,21 +116,26 @@ const trimTags = async () => {
   const categories = db.collection("Categories");
   for(let category of await categories.listDocuments()){
     const categoryTagsProm = category.get();
-    promsToAwait.push(categoryTagsProm);
-    categoryTagsProm.then((categorySnapshot) => {
-      allTags = new Set([...allTags, ...categorySnapshot.get("tags")]);
-    });
+    promsToAwait.push(categoryTagsProm.then((categorySnapshot) => {
+      const categoryTags = categorySnapshot.get("tags") as Array<string>;
+      if(categoryTags){
+        allTags = new Set([...allTags, ...categoryTags]);
+      }
+    }));
     const discussions = category.collection("Discussions");
     for(let discussion of await discussions.listDocuments()){
       const discussionTagsProm = discussion.get();
-      promsToAwait.push(discussionTagsProm);
-      discussionTagsProm.then((discussionSnapshot) => {
-        allTags = new Set([...allTags, ...discussionSnapshot.get("tags")]);
-      });
+      promsToAwait.push(discussionTagsProm.then((discussionSnapshot) => {
+        const theseTags = discussionSnapshot.get("tags") as Array<string>;
+        if(theseTags){
+          allTags = new Set([...allTags, ...theseTags]);
+        }
+      }));
     }
   }
   await Promise.all(promsToAwait);
   db.doc("Globals/Tags").update({tags: [...allTags]});
+  log("tags", allTags);
 };
 
 const recursiveDeleteCollection = async (collection: types.CollectionReference) => {
@@ -150,17 +155,27 @@ const recursiveDeleteDocument = async (document: types.DocumentReference) => {
   document.delete();
 };
 
+// const recursiveDeleteDocument = async (document: types.DocumentReference) => {
+//   const childCollections = await document.listCollections();
+//   await childCollections.forEach(async (collectionRef) => {
+//     await recursiveDeleteCollection(collectionRef);
+//   });
+//   document.delete();
+// };
+
 interface deleteCategoryRequest{
   categoryID: string;
 };
 
-export const deleteCategory= functions.https.onRequest((request, response) => cors(request, response, async () => {
+export const deleteCategory = functions.https.onRequest((request, response) => cors(request, response, async () => {
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
   const { categoryID } = request.body.data as deleteCategoryRequest;
 
+  log("message", "starting document deletion");
   await recursiveDeleteDocument(db.doc(`Categories/${categoryID}`));
+  log("message", "document deleted");
   trimTags();
   response.send({data: {}});
 }));
@@ -183,7 +198,9 @@ export const deleteDiscussion = functions.https.onRequest((request, response) =>
   }
 
   const discussion = category.collection("Discussions").doc(`${discussionID}`);
+  log("message", "starting document deletion");
   await recursiveDeleteDocument(discussion);
+  log("message", "document deleted");
   trimTags();
   response.send({data: {success: true}});
 }));
