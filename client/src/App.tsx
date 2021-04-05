@@ -13,8 +13,8 @@ import firebase from 'firebase';
 
 function App() {
   const [username, setUsername] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  console.log(firebase.auth().currentUser);
   return (
     <Router>
       <div className="App">
@@ -55,35 +55,31 @@ function App() {
               className="d-inline-block align-top"
               />{' '}</h2>
         {
-          firebase.auth().currentUser === null ?
+          loggedIn ?
           (
-            <p>
-              Hello. Please login.
-            </p>
-          ) :
+            <Switch>
+              <Route exact path="/">
+                <HomeView />
+              </Route>
+              <Route path="/category/:id">
+                <CategoryView />
+              </Route>
+              <Route path="/discussion/:categoryID/:discussionID">
+                <DiscussionView username={username}/>
+              </Route>
+              <Route path="*">
+                <NotFound />
+              </Route>
+            </Switch>
+          ) : 
           (
-            <p>
-              you are logged in.
-            </p>
+            <LoginUI signInCallback={() => {
+              setLoggedIn(true);
+              return false;
+            }}/>
           )
         }
-        <Switch>
-          <Route exact path="/">
-            <HomeView />
-          </Route>
-          <Route path="/category/:id">
-            <CategoryView />
-          </Route>
-          <Route path="/discussion/:categoryID/:discussionID">
-            <DiscussionView username={username}/>
-          </Route>
-          <Route path="/test">
-            <LoginUI />
-          </Route>
-          <Route path="*">
-            <NotFound />
-          </Route>
-        </Switch>
+
       </div>
     </Router>
   );
