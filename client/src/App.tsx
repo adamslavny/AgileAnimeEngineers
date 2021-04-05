@@ -9,7 +9,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Form, FormControl } from 'react-bootstrap';
 import gator from './icons/gator.svg';
 import LoginUI from "./LoginUI";
-import firebase from 'firebase';
 
 function App() {
   const [username, setUsername] = useState("");
