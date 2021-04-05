@@ -8,9 +8,13 @@ import DiscussionView from './views/DiscussionView';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Form, FormControl } from 'react-bootstrap';
 import gator from './icons/gator.svg';
+import LoginUI from "./LoginUI";
+import firebase from 'firebase';
 
 function App() {
   const [username, setUsername] = useState("");
+
+  console.log(firebase.auth().currentUser);
   return (
     <Router>
       <div className="App">
@@ -50,6 +54,19 @@ function App() {
               height="75"
               className="d-inline-block align-top"
               />{' '}</h2>
+        {
+          firebase.auth().currentUser === null ?
+          (
+            <p>
+              Hello. Please login.
+            </p>
+          ) :
+          (
+            <p>
+              you are logged in.
+            </p>
+          )
+        }
         <Switch>
           <Route exact path="/">
             <HomeView />
@@ -59,6 +76,9 @@ function App() {
           </Route>
           <Route path="/discussion/:categoryID/:discussionID">
             <DiscussionView username={username}/>
+          </Route>
+          <Route path="/test">
+            <LoginUI />
           </Route>
           <Route path="*">
             <NotFound />
