@@ -203,3 +203,31 @@ export const getTags = functions.https.onRequest((request, response) => cors(req
   const tags = (await tagsDoc.get()).get("tags");
   response.send({data: tags});
 }));
+
+interface getUserRequest {
+  UID: string;
+}
+
+export const getUser = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const { UID } = request.body.data as getUserRequest;
+
+  const userDoc = db.doc(`Users/${UID}`);
+  let userSnapshot = await userDoc.get();
+
+  const isNewUser = !userSnapshot.exists;
+  if(isNewUser){
+    await userDoc.create({PUID: Date.now(), username: ""});
+    userSnapshot = await userDoc.get();
+  }
+
+  response.send({data: {
+    isNewUser: isNewUser,
+    userData: {
+      PUID: userSnapshot.data()!.PUID,
+      username: userSnapshot.data()!.username
+    }
+  }});
+}));
