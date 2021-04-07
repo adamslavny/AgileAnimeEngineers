@@ -47,7 +47,7 @@ export const getChatroomRef = (categoryID: string, discussionID: string) => {
 };
 
 export const getTags = () => {
-  console.log("calling deleteDiscussion()");
+  console.log("calling getTags()");
   const getTagsCall = functions.httpsCallable("getTags");
   return getTagsCall().then((result) => {return result.data});
 };
