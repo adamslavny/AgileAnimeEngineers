@@ -8,16 +8,6 @@ const log = (name: string, something: any) => {functions.logger.info({name: name
 admin.initializeApp();
 const db = admin.firestore()
 
-// Start writing Firebase Functions
-// https://firebase.google.com/docs/functions/typescript
-
-export const helloWorld = functions.https.onRequest((request, response) => cors(request, response, () => {
-  response.set('Access-Control-Allow-Origin', '*');
-  log("body", request.body);
-  
-  response.send({data: "Hello, World!"});
-}));
-
 export const getCategories = functions.https.onRequest((request, response) => cors(request, response, async () => {
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
