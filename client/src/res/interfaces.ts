@@ -15,3 +15,9 @@ export interface message{
   author: string;
   time: Date;
 };
+
+export interface userData{
+  UID: string;
+  PUID: number;
+  username: string;
+}

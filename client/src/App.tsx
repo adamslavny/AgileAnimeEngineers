@@ -9,10 +9,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Form, FormControl } from 'react-bootstrap';
 import gator from './icons/gator.svg';
 import LoginUI from "./LoginUI";
+import { getUser } from "./res/BackendConnection";
 import firebase from "firebase";
+import { userData } from "./res/interfaces";
 
 function App() {
   const [username, setUsername] = useState("");
+  const [userData, setUserData] = useState<userData>({UID: "", PUID: 0, username: ""});
   const [loggedIn, setLoggedIn] = useState(false);
 
   return (
@@ -47,7 +50,8 @@ function App() {
                                     // this value to authenticate with your backend server, if
                                     // you have one. Use User.getToken() instead.
                   }
-                  console.log(uid);
+                  // console.log(uid);
+                  console.log(userData);
                 }}>
                 Debug Button
               </button>
@@ -81,7 +85,7 @@ function App() {
                 <CategoryView />
               </Route>
               <Route path="/discussion/:categoryID/:discussionID">
-                <DiscussionView username={username}/>
+                <DiscussionView username={userData.username}/>
               </Route>
               <Route path="*">
                 <NotFound />
@@ -91,6 +95,12 @@ function App() {
           (
             <LoginUI signInCallback={() => {
               setLoggedIn(true);
+              getUser(firebase.auth().currentUser!.uid).then((data) => {
+                if(data.isNewUser){
+                  // do something if they are a new user
+                }
+                setUserData(data.userData);
+              });
               return false;
             }}/>
           )
