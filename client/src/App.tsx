@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Form, FormControl } from 'react-bootstrap';
 import gator from './icons/gator.svg';
 import LoginUI from "./LoginUI";
+import firebase from "firebase";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -35,6 +36,22 @@ function App() {
             <Nav.Item style={{padding: "5px"}}>Home</Nav.Item>
             <Nav.Item style={{padding: "5px"}}>Link2</Nav.Item>
             <Nav.Item style={{padding: "5px"}}>Link3</Nav.Item>
+            <Nav.Item style={{padding: "5px"}}>
+              <button
+                onClick={() => {
+                  var user = firebase.auth().currentUser;
+                  var uid;
+
+                  if (user != null) {
+                    uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+                                    // this value to authenticate with your backend server, if
+                                    // you have one. Use User.getToken() instead.
+                  }
+                  console.log(uid);
+                }}>
+                Debug Button
+              </button>
+            </Nav.Item>
           </Nav>
           <Form inline className = "username">
             <FormControl
