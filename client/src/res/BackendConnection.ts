@@ -51,3 +51,9 @@ export const getTags = () => {
   const getTagsCall = functions.httpsCallable("getTags");
   return getTagsCall().then((result) => {return result.data});
 };
+
+export const getUser = (UID: string) => {
+  console.log(`calling getUser(${UID})`);
+  const addDiscussionCall = functions.httpsCallable("getUser");
+  return addDiscussionCall({ UID: UID }).then((result) => {return result.data});
+};
