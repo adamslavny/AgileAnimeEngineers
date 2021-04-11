@@ -1,4 +1,5 @@
 import { db, functions } from './firebase';
+import { userData } from './interfaces';
 
 /*
 Note:
@@ -56,4 +57,10 @@ export const getUser = (UID: string) => {
   console.log(`calling getUser(${UID})`);
   const addDiscussionCall = functions.httpsCallable("getUser");
   return addDiscussionCall({ UID: UID }).then((result) => {return result.data});
+};
+
+export const setUserData = (UID: string, newUserData: userData) => {
+  console.log(`calling getUser(${UID}, ${newUserData})`);
+  const addDiscussionCall = functions.httpsCallable("setUserData");
+  return addDiscussionCall({ UID: UID, newUserData: newUserData }).then((result) => {return result.data});
 };

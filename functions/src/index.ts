@@ -231,3 +231,38 @@ export const getUser = functions.https.onRequest((request, response) => cors(req
     }
   }});
 }));
+
+interface userData {
+  PUID: number;
+  username: string;
+}
+
+interface updateUserDataRequest {
+  UID: string;
+  newUserData: userData;
+}
+
+export const updateUserData = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const { UID, newUserData } = request.body.data as updateUserDataRequest;
+
+  const userDoc = db.doc(`Users/${UID}`);
+  let userSnapshot = await userDoc.get();
+
+  const isNewUser = !userSnapshot.exists;
+  if(isNewUser){
+    response.send({data:{
+      success: false,
+      message: "user does not exist"
+    }});
+    return;
+  }
+
+  userDoc.set(newUserData);
+  response.send({data: {
+    success: true,
+    message: ""
+  }})
+}));
