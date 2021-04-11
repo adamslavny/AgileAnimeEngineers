@@ -12,6 +12,7 @@ import LoginUI from "./LoginUI";
 import { getUser } from "./res/BackendConnection";
 import firebase from "firebase";
 import { userData } from "./res/interfaces";
+import SettingsView from "./views/SettingsView";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -36,7 +37,11 @@ function App() {
             </Navbar.Brand>
           </Link>
           <Nav className="mr-auto">
-            <Nav.Item style={{padding: "5px"}}>Home</Nav.Item>
+            <Nav.Item style={{padding: "5px"}}>
+              <Link to="/settings" style={{color: "black"}}>
+                Settings
+              </Link>
+            </Nav.Item>
             <Nav.Item style={{padding: "5px"}}>Link2</Nav.Item>
             <Nav.Item style={{padding: "5px"}}>Link3</Nav.Item>
             <Nav.Item style={{padding: "5px"}}>
@@ -77,6 +82,9 @@ function App() {
               </Route>
               <Route path="/discussion/:categoryID/:discussionID">
                 <DiscussionView username={userData.username}/>
+              </Route>
+              <Route exact path="/settings">
+                <SettingsView userData={userData} updateUserData={setUserData}/>
               </Route>
               <Route path="*">
                 <NotFound />
