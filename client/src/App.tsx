@@ -42,15 +42,6 @@ function App() {
             <Nav.Item style={{padding: "5px"}}>
               <button
                 onClick={() => {
-                  var user = firebase.auth().currentUser;
-                  var uid;
-
-                  if (user != null) {
-                    uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
-                                    // this value to authenticate with your backend server, if
-                                    // you have one. Use User.getToken() instead.
-                  }
-                  // console.log(uid);
                   console.log(userData);
                 }}>
                 Debug Button
