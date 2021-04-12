@@ -264,5 +264,5 @@ export const updateUserData = functions.https.onRequest((request, response) => c
   response.send({data: {
     success: true,
     message: ""
-  }})
+  }});
 }));
