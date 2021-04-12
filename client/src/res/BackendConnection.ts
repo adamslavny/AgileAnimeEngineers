@@ -59,8 +59,8 @@ export const getUser = (UID: string) => {
   return addDiscussionCall({ UID: UID }).then((result) => {return result.data});
 };
 
-export const setUserData = (UID: string, newUserData: userData) => {
-  console.log(`calling getUser(${UID}, ${newUserData})`);
-  const addDiscussionCall = functions.httpsCallable("setUserData");
+export const updateUserData = (UID: string, newUserData: userData) => {
+  console.log(`calling updateUserData(${UID}, {${newUserData.PUID}, ${newUserData.username}})`);
+  const addDiscussionCall = functions.httpsCallable("updateUserData");
   return addDiscussionCall({ UID: UID, newUserData: newUserData }).then((result) => {return result.data});
 };
