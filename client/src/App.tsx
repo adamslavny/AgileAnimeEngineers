@@ -84,7 +84,7 @@ function App() {
                 <DiscussionView username={userData.username}/>
               </Route>
               <Route exact path="/settings">
-                <SettingsView userData={userData} updateUserData={setUserData}/>
+                <SettingsView userData={userData} setUserData={setUserData}/>
               </Route>
               <Route path="*">
                 <NotFound />
@@ -98,7 +98,7 @@ function App() {
                 if(data.isNewUser){
                   // do something if they are a new user
                 }
-                setUserData(data.userData);
+                setUserData({UID: firebase.auth().currentUser!.uid, ...data.userData});
               });
               return false;
             }}/>
