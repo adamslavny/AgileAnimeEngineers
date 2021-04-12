@@ -15,7 +15,6 @@ import { userData } from "./res/interfaces";
 import SettingsView from "./views/SettingsView";
 
 function App() {
-  const [username, setUsername] = useState("");
   const [userData, setUserData] = useState<userData>({UID: "", PUID: 0, username: ""});
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -53,13 +52,6 @@ function App() {
               </button>
             </Nav.Item>
           </Nav>
-          <Form inline className = "username">
-            <FormControl
-              type="text"
-              placeholder="username"
-              onChange={(e) => {setUsername(e.target.value)}}
-            />
-          </Form>
         </Navbar>
 
         <h2 className='header'>
