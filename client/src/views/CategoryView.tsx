@@ -31,10 +31,6 @@ const CategoryView = (props: { userData: userData }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  useEffect(() => {
-    console.log(filterTags);
-  }, [filterTags]);
-
   if(!validCategory){
     return (
       <NotFound />
