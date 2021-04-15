@@ -70,10 +70,10 @@ function App() {
                 <HomeView />
               </Route>
               <Route path="/category/:id">
-                <CategoryView />
+                <CategoryView userData={userData}/>
               </Route>
               <Route path="/discussion/:categoryID/:discussionID">
-                <DiscussionView username={userData.username}/>
+                <DiscussionView userData={userData}/>
               </Route>
               <Route exact path="/settings">
                 <SettingsView userData={userData} setUserData={setUserData}/>

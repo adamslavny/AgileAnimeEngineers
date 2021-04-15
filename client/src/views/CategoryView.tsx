@@ -3,11 +3,11 @@ import DiscussionList from "./../DiscussionList";
 import { useEffect, useState } from "react";
 import { getDiscussions, deleteCategory } from "../res/BackendConnection";
 import NotFound from "./NotFound";
-import { discussion } from "./../res/interfaces";
+import { discussion, userData } from "./../res/interfaces";
 import AddDiscussionForm from "../AddDiscussionForm";
 import FilterTags from "../FilterTags";
 
-const CategoryView = () => {
+const CategoryView = (props: { userData: userData }) => {
   const { id } = useParams() as {id: string};
   const [discussions, setDiscussions] = useState<Array<discussion>>();
   const [categoryName, setCategoryName] = useState("");
@@ -16,6 +16,8 @@ const CategoryView = () => {
   const [filterTags, setFilterTags] = useState(Array<string>());
 
   const history = useHistory();
+
+  const { userData } = props;
 
   useEffect(() => {
     getDiscussions(id).then((discussionsData) => {
@@ -69,7 +71,11 @@ const CategoryView = () => {
       <div>
         <h4>{categoryName}</h4>
       </div>
-      <button onClick={handleDelete}>Delete Category</button>
+      {
+        userData.isModerator ?
+        <button onClick={handleDelete}>Delete Category</button> : 
+        <></>
+      }
       <AddDiscussionForm categoryID={id} defaultTags={tags}/>
       <FilterTags updateFilterTags={setFilterTags} />
       <DiscussionList discussions={filterDiscussions()} id={id}/>

@@ -2,17 +2,12 @@ import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { deleteDiscussion, getChatroomRef } from "../res/BackendConnection";
 import firebase from 'firebase/app';
-import { message } from "../res/interfaces";
+import { message, userData } from "../res/interfaces";
 import NotFound from "./NotFound";
 
-const DiscussionView = (props: {username: string}) => {
-  useEffect(() => {
-    if(props.username === ""){
-      alert("Please set a username in the top right.");
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  
+const DiscussionView = (props: {userData: userData}) => {
+
+  const { userData } = props;
 
   const { categoryID, discussionID } = useParams() as {categoryID: string, discussionID: string};
   
@@ -46,11 +41,11 @@ const DiscussionView = (props: {username: string}) => {
     if(messageText === ""){
       return;
     }
-    if(props.username === ""){
+    if(userData.username === ""){
       alert("Please set a username in the top right.");
       return;
     }
-    chatroomRef.collection("Messages").add({ content: messageText, time: firebase.firestore.Timestamp.now(), author: props.username });
+    chatroomRef.collection("Messages").add({ content: messageText, time: firebase.firestore.Timestamp.now(), author: userData.username });
     setMessageText("");
   };
 
@@ -76,7 +71,12 @@ const DiscussionView = (props: {username: string}) => {
 
   return (
     <div className="discussion-view">
-      <button onClick={handleDelete}>Delete Discussion</button>
+      {
+        userData.isModerator ?
+        <button onClick={handleDelete}>Delete Discussion</button> :
+        <></>
+      }
+      
       {messageList?.map((message, i) => {
         return (
           <div className= "msgClass" key={i}>
