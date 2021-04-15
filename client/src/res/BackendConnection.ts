@@ -64,3 +64,9 @@ export const updateUserData = (UID: string, newUserData: userData) => {
   const addDiscussionCall = functions.httpsCallable("updateUserData");
   return addDiscussionCall({ UID: UID, newUserData: newUserData }).then((result) => {return result.data});
 };
+
+export const getUsernames = (PUIDs: Array<number>) => {
+  console.log(`calling getUsernames(${PUIDs})`);
+  const addDiscussionCall = functions.httpsCallable("getUsernames");
+  return addDiscussionCall({ PUIDs: PUIDs }).then((result) => {return result.data});
+};

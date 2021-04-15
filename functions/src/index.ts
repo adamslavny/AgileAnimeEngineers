@@ -268,3 +268,26 @@ export const updateUserData = functions.https.onRequest((request, response) => c
     message: ""
   }});
 }));
+
+interface getUsernamesRequest {
+  PUIDs: Array<number>;
+}
+
+export const getUsernames = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const { PUIDs } = request.body.data as getUsernamesRequest;
+
+  let usernames: { [PUID: number]: string } = {};
+  const users = db.collection("Users");
+
+  Promise.all(PUIDs.map(async (PUID) => {
+    usernames[PUID] = (await users.where("PUID", "==", PUID).get()).docs[0].data().username;
+  })).then(() => {
+    response.send({ data: { 
+      usernameMap: usernames
+    }});
+  });
+
+}));
