@@ -42,7 +42,7 @@ const DiscussionView = (props: {userData: userData}) => {
       return;
     }
     if(userData.username === ""){
-      alert("Please set a username in the top right.");
+      alert("Please set a username in your settings before sending a message.");
       return;
     }
     chatroomRef.collection("Messages").add({ content: messageText, time: firebase.firestore.Timestamp.now(), author: userData.username });
