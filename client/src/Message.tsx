@@ -15,6 +15,7 @@ const Message = (props: {message: message}) => {
         setMessage(newMessage);
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const pad = (num: number, size: number) => {
