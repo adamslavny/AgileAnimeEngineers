@@ -1,10 +1,23 @@
+import { useState, useEffect } from "react";
 import { message } from "./res/interfaces";
+import { getUsernamesCache } from "./res/UsernameCache";
 
 const Message = (props: {message: message}) => {
 
-  const { message } = props;
+  const [message, setMessage] = useState({ ...props.message });  
 
-  const pad =(num: number, size: number) => {
+  useEffect(() => {
+    if(!isNaN(Number(message.author))){
+      
+      getUsernamesCache([Number(message.author)]).then((usernames) => {
+        let newMessage = {...message};
+        newMessage.author = usernames[Number(message.author)];
+        setMessage(newMessage);
+      });
+    }
+  }, []);
+
+  const pad = (num: number, size: number) => {
     let str = num.toString();
     while (str.length < size) str = "0" + num;
     return str;
