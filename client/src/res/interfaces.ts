@@ -20,4 +20,5 @@ export interface userData {
   UID: string;
   PUID: number;
   username: string;
+  isModerator: boolean;
 };

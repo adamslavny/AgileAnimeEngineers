@@ -15,7 +15,7 @@ import { userData } from "./res/interfaces";
 import SettingsView from "./views/SettingsView";
 
 function App() {
-  const [userData, setUserData] = useState<userData>({UID: "", PUID: 0, username: ""});
+  const [userData, setUserData] = useState<userData>({UID: "", PUID: 0, username: "", isModerator: false});
   const [loggedIn, setLoggedIn] = useState(false);
 
   return (
