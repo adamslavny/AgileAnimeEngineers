@@ -82,3 +82,9 @@ export const assignMod = (assignerUID: string, newModPUID: number) => {
   const addDiscussionCall = functions.httpsCallable("assignMod");
   return addDiscussionCall({ assignerUID: assignerUID, newModPUID: newModPUID }).then((result) => {return result.data});
 };
+
+export const banUser = (assignerUID: string, bannedPUID: number) => {
+  console.log(`calling banUser(${assignerUID}, ${bannedPUID})`);
+  const addDiscussionCall = functions.httpsCallable("banUser");
+  return addDiscussionCall({ assignerUID: assignerUID, bannedPUID: bannedPUID }).then((result) => {return result.data});
+};
