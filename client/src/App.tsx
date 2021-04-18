@@ -65,23 +65,27 @@ function App() {
         {
           loggedIn ?
           (
-            <Switch>
-              <Route exact path="/">
-                <HomeView />
-              </Route>
-              <Route path="/category/:id">
-                <CategoryView userData={userData}/>
-              </Route>
-              <Route path="/discussion/:categoryID/:discussionID">
-                <DiscussionView userData={userData}/>
-              </Route>
-              <Route exact path="/settings">
-                <SettingsView userData={userData} setUserData={setUserData}/>
-              </Route>
-              <Route path="*">
-                <NotFound />
-              </Route>
-            </Switch>
+            userData.isBanned ?
+            <p>Looks like you got banned :(</p> :
+            ( 
+              <Switch>
+                <Route exact path="/">
+                  <HomeView />
+                </Route>
+                <Route path="/category/:id">
+                  <CategoryView userData={userData}/>
+                </Route>
+                <Route path="/discussion/:categoryID/:discussionID">
+                  <DiscussionView userData={userData}/>
+                </Route>
+                <Route exact path="/settings">
+                  <SettingsView userData={userData} setUserData={setUserData}/>
+                </Route>
+                <Route path="*">
+                  <NotFound />
+                </Route>
+              </Switch>
+            )
           ) : 
           (
             <LoginUI signInCallback={() => {
