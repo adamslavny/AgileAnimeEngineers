@@ -21,27 +21,31 @@ export const getDiscussions = (categoryName: string) => {
 };
 
 export const addCategory = (categoryName: string, tags: Array<string>) => {
-  console.log(`calling addCategory(${categoryName}, ${tags})`);
+  const callerUID = firebase.auth().currentUser!.uid;
+  console.log(`calling addCategory(${callerUID}, ${categoryName}, ${tags})`);
   const addCategoryCall = functions.httpsCallable("addCategory");
-  return addCategoryCall({ name: categoryName, tags: tags }).then((result) => {return result.data});
+  return addCategoryCall({ callerID: callerUID, name: categoryName, tags: tags }).then((result) => {return result.data});
 };
 
 export const addDiscussion = (discussionName: string, categoryID: string, tags: Array<string>) => {
-  console.log(`calling addDiscussion(${discussionName}, ${categoryID}, ${tags})`);
+  const callerUID = firebase.auth().currentUser!.uid;
+  console.log(`calling addDiscussion(${callerUID}, ${discussionName}, ${categoryID}, ${tags})`);
   const addDiscussionCall = functions.httpsCallable("addDiscussion");
-  return addDiscussionCall({ name: discussionName, categoryID: categoryID, tags: tags }).then((result) => {return result.data});
+  return addDiscussionCall({ callerUID: callerUID, name: discussionName, categoryID: categoryID, tags: tags }).then((result) => {return result.data});
 };
 
 export const deleteCategory = (categoryID: string) => {
-  console.log(`calling deleteCategory(${categoryID})`);
+  const callerUID = firebase.auth().currentUser!.uid;
+  console.log(`calling deleteCategory(${callerUID}, ${categoryID})`);
   const deleteCategoryCall = functions.httpsCallable("deleteCategory");
-  return deleteCategoryCall({ categoryID: categoryID }).then((result) => {return result.data});
+  return deleteCategoryCall({ callerUID: callerUID, categoryID: categoryID }).then((result) => {return result.data});
 };
 
 export const deleteDiscussion = (categoryID: string, discussionID: string) => {
-  console.log(`calling deleteDiscussion(${categoryID}, ${discussionID})`);
+  const callerUID = firebase.auth().currentUser!.uid;
+  console.log(`calling deleteDiscussion(${callerUID}, ${categoryID}, ${discussionID})`);
   const deleteDiscussionCall = functions.httpsCallable("deleteDiscussion");
-  return deleteDiscussionCall({ categoryID: categoryID, discussionID: discussionID }).then((result) => {return result.data});
+  return deleteDiscussionCall({ callerUID: callerUID, categoryID: categoryID, discussionID: discussionID }).then((result) => {return result.data});
 };
 
 export const getChatroomRef = (categoryID: string, discussionID: string) => {
@@ -79,15 +83,15 @@ export const getMods = () => {
 };
 
 export const assignMod = (newModPUID: number) => {
-  const assignerUID = firebase.auth().currentUser!.uid;
-  console.log(`calling assignMod(${assignerUID}, ${newModPUID})`);
+  const callerUID = firebase.auth().currentUser!.uid;
+  console.log(`calling assignMod(${callerUID}, ${newModPUID})`);
   const addDiscussionCall = functions.httpsCallable("assignMod");
-  return addDiscussionCall({ assignerUID: assignerUID, newModPUID: newModPUID }).then((result) => {return result.data});
+  return addDiscussionCall({ callerUID: callerUID, newModPUID: newModPUID }).then((result) => {return result.data});
 };
 
 export const banUser = (bannedPUID: number) => {
-  const assignerUID = firebase.auth().currentUser!.uid;
-  console.log(`calling banUser(${assignerUID}, ${bannedPUID})`);
+  const callerUID = firebase.auth().currentUser!.uid;
+  console.log(`calling banUser(${callerUID}, ${bannedPUID})`);
   const addDiscussionCall = functions.httpsCallable("banUser");
-  return addDiscussionCall({ assignerUID: assignerUID, bannedPUID: bannedPUID }).then((result) => {return result.data});
+  return addDiscussionCall({ callerUID: callerUID, bannedPUID: bannedPUID }).then((result) => {return result.data});
 };

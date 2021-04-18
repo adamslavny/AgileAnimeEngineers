@@ -40,10 +40,17 @@ export const getDiscussions = functions.https.onRequest((request, response) => c
   response.send({data: { name: categoryData.name, categoryTags: categoryData.tags, discussions: discussionData}});
 }));
 
-interface addCategoryRequest {
-  name: string;
-  tags: Array<string>;
-};
+const checkIfUserIsMod = async (UID: string) => {
+  const user = db.doc(`Users/${UID}`);
+  const userSnapshot = await user.get();
+  return !!userSnapshot.data()?.isModerator;
+}
+
+const checkIfUserIsBanned = async (UID: string) => {
+  const user = db.doc(`Users/${UID}`);
+  const userSnapshot = await user.get();
+  return !!userSnapshot.data()?.isBanned;
+}
 
 const addTags = async (tags: Array<string>) => {
   const tagsRef = db.doc("Globals/Tags");
@@ -51,12 +58,23 @@ const addTags = async (tags: Array<string>) => {
   tagsRef.update({tags: [...new Set(oldTags.concat(tags))]});
 };
 
+interface addCategoryRequest {
+  callerUID: string;
+  name: string;
+  tags: Array<string>;
+};
+
 export const addCategory = functions.https.onRequest((request, response) => cors(request, response, async () => {
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
-  const { name, tags } = request.body.data as addCategoryRequest;
-  
+  const { callerUID, name, tags } = request.body.data as addCategoryRequest;
+
+  if(await checkIfUserIsBanned(callerUID)){
+    response.send({data: {success: false, details: {errorMessage: "You are banned."}}});
+    return;
+  }
+
   const categories = db.collection("Categories");
   const sameNameCategories = await categories.where("name", "==", name).get();
   if(sameNameCategories.size > 0){
@@ -70,6 +88,7 @@ export const addCategory = functions.https.onRequest((request, response) => cors
 }));
 
 interface addDiscussionRequest {
+  callerUID: string;
   name: string;
   categoryID: string;
   tags: Array<string>;
@@ -79,7 +98,12 @@ export const addDiscussion = functions.https.onRequest((request, response) => co
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
-  const { name, categoryID, tags } = request.body.data as addDiscussionRequest;
+  const { callerUID, name, categoryID, tags } = request.body.data as addDiscussionRequest;
+
+  if(await checkIfUserIsBanned(callerUID)){
+    response.send({data: {success: false, details: {errorMessage: "You are banned."}}});
+    return;
+  }
 
   const category = db.doc(`Categories/${categoryID}`);
   if(!(await category.get()).exists){
@@ -145,13 +169,8 @@ const recursiveDeleteDocument = async (document: types.DocumentReference) => {
   document.delete();
 };
 
-const checkIfUserIsMod = async (UID: string) => {
-  const user = db.doc(`Users/${UID}`);
-  const userSnapshot = await user.get();
-  return !!userSnapshot.data()?.isModerator;
-}
-
 interface deleteCategoryRequest{
+  callerUID: string;
   categoryID: string;
 };
 
@@ -159,16 +178,17 @@ export const deleteCategory = functions.https.onRequest((request, response) => c
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
-  const { categoryID } = request.body.data as deleteCategoryRequest;
+  const { callerUID, categoryID } = request.body.data as deleteCategoryRequest;
 
-  log("message", "starting document deletion");
-  await recursiveDeleteDocument(db.doc(`Categories/${categoryID}`));
-  log("message", "document deleted");
-  trimTags();
+  if(await checkIfUserIsMod(callerUID)){
+    await recursiveDeleteDocument(db.doc(`Categories/${categoryID}`));
+    trimTags();
+  }
   response.send({data: {}});
 }));
 
 interface deleteDiscussionRequest {
+  callerUID: string;
   discussionID: string;
   categoryID: string;
 };
@@ -177,7 +197,12 @@ export const deleteDiscussion = functions.https.onRequest((request, response) =>
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
-  const { discussionID, categoryID } = request.body.data as deleteDiscussionRequest;
+  const { callerUID, discussionID, categoryID } = request.body.data as deleteDiscussionRequest;
+
+  if(!(await checkIfUserIsMod(callerUID))){
+    response.send({data: {success:false, details: {errorMessage: "You are not a mod."}}});
+    return;
+  }
 
   const category = db.doc(`Categories/${categoryID}`);
   if(!(await category.get()).exists){
@@ -186,9 +211,7 @@ export const deleteDiscussion = functions.https.onRequest((request, response) =>
   }
 
   const discussion = category.collection("Discussions").doc(`${discussionID}`);
-  log("message", "starting document deletion");
   await recursiveDeleteDocument(discussion);
-  log("message", "document deleted");
   trimTags();
   response.send({data: {success: true}});
 }));
@@ -309,7 +332,7 @@ export const getMods = functions.https.onRequest((request, response) => cors(req
 }));
 
 interface assignModRequest {
-  assignerUID: string;
+  callerUID: string;
   newModPUID: number;
 }
 
@@ -317,9 +340,9 @@ export const assignMod = functions.https.onRequest((request, response) => cors(r
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
-  const { assignerUID, newModPUID } = request.body.data as assignModRequest;
+  const { callerUID, newModPUID } = request.body.data as assignModRequest;
 
-  if(await checkIfUserIsMod(assignerUID)){
+  if(await checkIfUserIsMod(callerUID)){
     const user = db.collection("Users").where("PUID", "==", newModPUID);
     const userSnapshot = (await user.get()).docs[0];
     if(userSnapshot.exists){
@@ -331,7 +354,7 @@ export const assignMod = functions.https.onRequest((request, response) => cors(r
 }));
 
 interface banUserRequest {
-  assignerUID: string;
+  callerUID: string;
   bannedPUID: number;
 }
 
@@ -339,13 +362,13 @@ export const banUser = functions.https.onRequest((request, response) => cors(req
   response.set('Access-Control-Allow-Origin', '*');
   log("body", request.body);
 
-  const { assignerUID, bannedPUID } = request.body.data as banUserRequest;
+  const { callerUID, bannedPUID } = request.body.data as banUserRequest;
 
-  if(await checkIfUserIsMod(assignerUID)){
+  if(await checkIfUserIsMod(callerUID)){
     const user = db.collection("Users").where("PUID", "==", bannedPUID);
     const userSnapshot = (await user.get()).docs[0];
     if(userSnapshot.exists){
-      userSnapshot.ref.update({ isBanned: true });
+      userSnapshot.ref.update({ isBanned: true, isModerator: false });
     }
   }
 
