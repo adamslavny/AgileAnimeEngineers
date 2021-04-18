@@ -70,9 +70,8 @@ const DiscussionView = (props: {userData: userData}) => {
       {
         userData.isModerator ?
         <button onClick={handleDelete}>Delete Discussion</button> :
-        <></>
+        <></>  
       }
-      
       {messageList?.map((message, i) => {
         return (
           <div key={i}>

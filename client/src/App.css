@@ -160,11 +160,12 @@ label{
 
 .discussion-view{
   justify-content: center;
-  margin-bottom: 30px; 
+  margin-bottom: 35px; 
   margin-left:auto;
   margin-right: auto;
-  
+
 }
+
 
 
 .msgClass{
@@ -186,12 +187,14 @@ label{
   width: 650px;
   margin: auto;
   margin-top:3px ;
+  
 }
 
 .msgClass p{
-  margin-bottom: 2px;
+  margin-bottom: 5px;
   inline-size: 600px;
   overflow-wrap:break-word ;
+  margin-right: 25px;
 }
 
 .msg-text{
@@ -205,7 +208,7 @@ label{
 .msgClass-2{
   right: 0px;
   position: absolute;
-	width: 550px;
+	width: 600px;
 	background-color: #fff;
 	padding: 1.125em 1.5em;
 	font-size: 14px;
@@ -266,6 +269,7 @@ label{
   margin-left: -250px;
   bottom: 0px;
   margin-bottom: 3px;
+  margin-top: 8px;
 
 }
 
@@ -328,6 +332,49 @@ label{
   left:auto;
   z-index:4000;
 
+}
+
+span.message-text{
+  display:inline-block;
+}
+
+span.msg-time{
+  text-align: center;
+}
+
+span.message-mod-options{
+  display:block;
+  float: right;
+  clear:right;
+  margin-right: 1px;
+  
+}
+
+span.ban-user{
+  margin-left: 5px;
+
+}
+
+span.delete-message{
+   margin-left: 5px;
+
+}
+
+.big-span{
+
+ position: absolute;
+ line-height: 25px;
+ position: absolute;            
+ right: 5px;                  
+ top: 50%;                      
+ transform: translate(25px,-50%);
+ margin-right: 10px;
+ 
+}
+
+.msg-adj{
+  transform: translateX(-10px);
+  padding-right: 25px;
 }
 
 

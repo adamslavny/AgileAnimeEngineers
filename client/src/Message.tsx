@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { banUser as banUserBackend } from "./res/BackendConnection";
 import { message } from "./res/interfaces";
 import { getUsernamesCache } from "./res/UsernameCache";
+import trashcanSmall from './icons/trashcanSmall.png'
+import smallNO from './icons/no small.png'
 
 const Message = (props: {message: message, showModOptions: boolean, handleDelete: (messageID: string) => void}) => {
 
@@ -40,34 +42,29 @@ const Message = (props: {message: message, showModOptions: boolean, handleDelete
 
   return (
     <div className= "msgClass">
-      <p>
+      <p className = "msg-adj">
         <span className="msg-text">
           {`${message.author}: ${message.content}`}
-        </span>
-        {
-          showModOptions ?
-          <span className="message-mod-options">
-            <span className="ban-user">
-              <button
-                onClick={banUser}
-              >
-                {/* replace this with a crossed circle NO symbol */}
-                Ban this user.
-              </button>
-            </span>
-            <span className="delete-message">
-              <button
-                onClick={() => handleDelete(message.ID)}
-              >
-                {/* replace this with a trash can symbol */}
-                Delete this Message.
-              </button>
-            </span>
-          </span>: 
-          <></>
-        }
-        <span className="msg-time">
-          {formatDate(message.time)}
+      </span>
+        <span className = "big-span">
+          <span className="msg-time">
+            {formatDate(message.time)}
+          </span>
+          {
+            showModOptions ?
+            <span className="message-mod-options">
+              <span className="ban-user">
+              <img src={trashcanSmall} alt="trash can"
+                  onClick={banUser}/>
+              </span>
+              <span>&nbsp;
+                <img src={smallNO} alt="Delete"
+                  onClick={() => handleDelete(message.ID)}/>
+              </span>
+            </span>: 
+          
+            <></>
+          }
         </span>
       </p>
   </div>
