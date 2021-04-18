@@ -1,4 +1,6 @@
 import { useState } from "react";
+import AddMod from "../AddMod";
+import ListMods from "../ListMods";
 import { updateUserData } from "../res/BackendConnection";
 import { userData } from "../res/interfaces";
 
@@ -27,6 +29,9 @@ const SettingsView = (props: {userData: userData, setUserData: (newUserData: use
 
   return (
     <div>
+      <h2>
+        Settings
+      </h2>
       <form>
         <label>Username:</label><br/>
         <input
@@ -59,6 +64,29 @@ const SettingsView = (props: {userData: userData, setUserData: (newUserData: use
       >
         {getSaveMessage()}
       </button >
+      {
+        userData.isModerator ? 
+        <div className="moderator-settings">
+          <h2>
+            Moderator Settings
+          </h2>
+          <table>
+            <colgroup>
+              <col style={{width: "200px"}}/>
+              <col />
+            </colgroup>
+            <tr>
+              <th>Mod List</th>
+              <th>Add a mod</th>
+            </tr>
+            <tr>
+              <th><ListMods /></th>
+              <th><AddMod /></th>
+            </tr>
+          </table> 
+        </div> : 
+        <></>
+      }
     </div>
   );
 };
