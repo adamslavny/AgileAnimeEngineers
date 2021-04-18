@@ -60,38 +60,38 @@ export const getTags = () => {
 
 export const getUser = (UID: string) => {
   console.log(`calling getUser(${UID})`);
-  const addDiscussionCall = functions.httpsCallable("getUser");
-  return addDiscussionCall({ UID: UID }).then((result) => {return result.data});
+  const getUserCall = functions.httpsCallable("getUser");
+  return getUserCall({ UID: UID }).then((result) => {return result.data});
 };
 
 export const updateUserData = (UID: string, newUserData: userData) => {
   console.log(`calling updateUserData(${UID}, {${newUserData.PUID}, ${newUserData.username}})`);
-  const addDiscussionCall = functions.httpsCallable("updateUserData");
-  return addDiscussionCall({ UID: UID, newUserData: newUserData }).then((result) => {return result.data});
+  const updateUserDataCall = functions.httpsCallable("updateUserData");
+  return updateUserDataCall({ UID: UID, newUserData: newUserData }).then((result) => {return result.data});
 };
 
 export const getUsernames = (PUIDs: Array<number>) => {
   console.log(`calling getUsernames(${PUIDs})`);
-  const addDiscussionCall = functions.httpsCallable("getUsernames");
-  return addDiscussionCall({ PUIDs: PUIDs }).then((result) => {return result.data});
+  const getUsernamesCall = functions.httpsCallable("getUsernames");
+  return getUsernamesCall({ PUIDs: PUIDs }).then((result) => {return result.data});
 };
 
 export const getMods = () => {
   console.log(`calling getMods()`);
-  const addDiscussionCall = functions.httpsCallable("getMods");
-  return addDiscussionCall().then((result) => {return result.data});
+  const getModsCall = functions.httpsCallable("getMods");
+  return getModsCall().then((result) => {return result.data});
 };
 
 export const assignMod = (newModPUID: number) => {
   const callerUID = firebase.auth().currentUser!.uid;
   console.log(`calling assignMod(${callerUID}, ${newModPUID})`);
-  const addDiscussionCall = functions.httpsCallable("assignMod");
-  return addDiscussionCall({ callerUID: callerUID, newModPUID: newModPUID }).then((result) => {return result.data});
+  const assignModCall = functions.httpsCallable("assignMod");
+  return assignModCall({ callerUID: callerUID, newModPUID: newModPUID }).then((result) => {return result.data});
 };
 
 export const banUser = (bannedPUID: number) => {
   const callerUID = firebase.auth().currentUser!.uid;
   console.log(`calling banUser(${callerUID}, ${bannedPUID})`);
-  const addDiscussionCall = functions.httpsCallable("banUser");
-  return addDiscussionCall({ callerUID: callerUID, bannedPUID: bannedPUID }).then((result) => {return result.data});
+  const banUserCall = functions.httpsCallable("banUser");
+  return banUserCall({ callerUID: callerUID, bannedPUID: bannedPUID }).then((result) => {return result.data});
 };
