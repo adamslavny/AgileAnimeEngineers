@@ -13,6 +13,7 @@ export interface discussion {
 export interface message {
   content: string;
   author: string;
+  authorID: number;
   time: Date;
   ID: string;
 };

@@ -32,7 +32,7 @@ const DiscussionView = (props: {userData: userData}) => {
 
     chatroomRef.collection("Messages").orderBy("time", "asc").onSnapshot((querySnapshot) => {
       let newMessageList: Array<message> = [];
-      querySnapshot.forEach((message) => newMessageList.push({content: message.get("content"), author: message.get("author"), time: message.get("time").toDate(), ID: message.id}));
+      querySnapshot.forEach((message) => newMessageList.push({content: message.get("content"), author: "", authorID: message.get("author"), time: message.get("time").toDate(), ID: message.id}));
       setMessageList(newMessageList);
     });
   }, [chatroomRef]);

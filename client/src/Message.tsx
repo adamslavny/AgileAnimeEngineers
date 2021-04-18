@@ -9,11 +9,10 @@ const Message = (props: {message: message, showModOptions: boolean, handleDelete
   const { showModOptions, handleDelete } = props;
 
   useEffect(() => {
-    if(!isNaN(Number(message.author))){
-      
-      getUsernamesCache([Number(message.author)]).then((usernames) => {
+    if(message.author === ""){
+      getUsernamesCache([message.authorID]).then((usernames) => {
         let newMessage = {...message};
-        newMessage.author = usernames[Number(message.author)];
+        newMessage.author = usernames[message.authorID];
         setMessage(newMessage);
       });
     }
