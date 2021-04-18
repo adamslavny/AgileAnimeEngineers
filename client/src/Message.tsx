@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { message } from "./res/interfaces";
 import { getUsernamesCache } from "./res/UsernameCache";
 
-const Message = (props: {message: message}) => {
+const Message = (props: {message: message, showModOptions: boolean}) => {
 
-  const [message, setMessage] = useState({ ...props.message });  
+  const [message, setMessage] = useState({ ...props.message });
+
+  const { showModOptions } = props;
 
   useEffect(() => {
     if(!isNaN(Number(message.author))){
@@ -32,12 +34,42 @@ const Message = (props: {message: message}) => {
     return `${date.getMonth()}/${pad(date.getDate(), 2)}/${date.getFullYear()}`;
   }
 
+  const banUser = () => {
+
+  };
+
+  const deleteMessage = () => {
+
+  };
+
   return (
     <div className= "msgClass">
       <p>
         <span className="msg-text">
           {`${message.author}: ${message.content}`}
         </span>
+        {
+          showModOptions ?
+          <span className="message-mod-options">
+            <span className="ban-user">
+              <button
+                onClick={banUser}
+              >
+                {/* replace this with a crossed circle NO symbol */}
+                Ban this user.
+              </button>
+            </span>
+            <span className="delete-message">
+              <button
+                onClick={deleteMessage}
+              >
+                {/* replace this with a trash can symbol */}
+                Delete this Message.
+              </button>
+            </span>
+          </span>: 
+          <></>
+        }
         <span className="msg-time">
           {formatDate(message.time)}
         </span>

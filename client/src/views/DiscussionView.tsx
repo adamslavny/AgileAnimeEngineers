@@ -67,7 +67,7 @@ const DiscussionView = (props: {userData: userData}) => {
       {messageList?.map((message, i) => {
         return (
           <div key={i}>
-            <Message message={message}/>
+            <Message message={message} showModOptions={userData.isModerator}/>
           </div>
         );
       })}
