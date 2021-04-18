@@ -329,3 +329,25 @@ export const assignMod = functions.https.onRequest((request, response) => cors(r
 
   response.send({data: {}});
 }));
+
+interface banUserRequest {
+  assignerUID: string;
+  bannedPUID: number;
+}
+
+export const banUser = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const { assignerUID, bannedPUID } = request.body.data as banUserRequest;
+
+  if(await checkIfUserIsMod(assignerUID)){
+    const user = db.collection("Users").where("PUID", "==", bannedPUID);
+    const userSnapshot = (await user.get()).docs[0];
+    if(userSnapshot.exists){
+      userSnapshot.ref.update({ isBanned: true });
+    }
+  }
+
+  response.send({data: {}});
+}));
