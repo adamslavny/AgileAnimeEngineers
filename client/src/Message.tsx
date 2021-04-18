@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { message } from "./res/interfaces";
 import { getUsernamesCache } from "./res/UsernameCache";
 
-const Message = (props: {message: message, showModOptions: boolean}) => {
+const Message = (props: {message: message, showModOptions: boolean, handleDelete: (messageID: string) => void}) => {
 
-  const [message, setMessage] = useState({ ...props.message });
+  const [message, setMessage] = useState<message>({ ...props.message });
 
-  const { showModOptions } = props;
+  const { showModOptions, handleDelete } = props;
 
   useEffect(() => {
     if(!isNaN(Number(message.author))){
@@ -38,10 +38,6 @@ const Message = (props: {message: message, showModOptions: boolean}) => {
 
   };
 
-  const deleteMessage = () => {
-
-  };
-
   return (
     <div className= "msgClass">
       <p>
@@ -61,7 +57,7 @@ const Message = (props: {message: message, showModOptions: boolean}) => {
             </span>
             <span className="delete-message">
               <button
-                onClick={deleteMessage}
+                onClick={() => handleDelete(message.ID)}
               >
                 {/* replace this with a trash can symbol */}
                 Delete this Message.

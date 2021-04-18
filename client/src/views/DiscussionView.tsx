@@ -37,6 +37,10 @@ const DiscussionView = (props: {userData: userData}) => {
     });
   }, [chatroomRef]);
 
+  const deleteMessage = (messageID: string) => {
+    chatroomRef.collection("Messages").doc(messageID).delete();
+  }
+
   const sendMessage = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     if(messageText === ""){
@@ -67,7 +71,7 @@ const DiscussionView = (props: {userData: userData}) => {
       {messageList?.map((message, i) => {
         return (
           <div key={i}>
-            <Message message={message} showModOptions={userData.isModerator}/>
+            <Message message={message} showModOptions={userData.isModerator} handleDelete={deleteMessage}/>
           </div>
         );
       })}
