@@ -291,3 +291,17 @@ export const getUsernames = functions.https.onRequest((request, response) => cor
   });
 
 }));
+
+export const getMods = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const users = db.collection("Users");
+
+  const mods = await users.where("isModerator", "==", true).get();
+  let modIDs: number[] = [];
+  mods.forEach((mod) => {
+    modIDs.push(mod.data().PUID);
+  });
+  response.send({data: modIDs});
+}));

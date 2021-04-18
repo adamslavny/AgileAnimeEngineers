@@ -70,3 +70,9 @@ export const getUsernames = (PUIDs: Array<number>) => {
   const addDiscussionCall = functions.httpsCallable("getUsernames");
   return addDiscussionCall({ PUIDs: PUIDs }).then((result) => {return result.data});
 };
+
+export const getMods = () => {
+  console.log(`calling getMods()`);
+  const addDiscussionCall = functions.httpsCallable("getMods");
+  return addDiscussionCall().then((result) => {return result.data});
+};
