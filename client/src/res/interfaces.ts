@@ -14,6 +14,7 @@ export interface message {
   content: string;
   author: string;
   time: Date;
+  ID: string;
 };
 
 export interface userData {
