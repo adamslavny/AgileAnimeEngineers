@@ -319,7 +319,7 @@ export const assignMod = functions.https.onRequest((request, response) => cors(r
     const user = db.collection("Users").where("PUID", "==", newModPUID);
     const userSnapshot = (await user.get()).docs[0];
     if(userSnapshot.exists){
-      userSnapshot.ref.set({ isModerator: true });
+      userSnapshot.ref.update({ isModerator: true });
     }
   }
 
