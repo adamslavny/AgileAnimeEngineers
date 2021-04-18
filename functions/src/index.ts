@@ -217,16 +217,19 @@ export const getUser = functions.https.onRequest((request, response) => cors(req
 
   const isNewUser = !userSnapshot.exists;
   if(isNewUser){
-    await userDoc.create({PUID: Date.now(), username: "", isModerator: false});
+    await userDoc.create({PUID: Date.now(), username: "", isModerator: false, isBanned: false});
     userSnapshot = await userDoc.get();
   }
+
+  const userData = userSnapshot.data();
 
   response.send({data: {
     isNewUser: isNewUser,
     userData: {
-      PUID: userSnapshot.data()!.PUID,
-      username: userSnapshot.data()!.username,
-      isModerator: userSnapshot.data()!.isModerator
+      PUID: userData!.PUID,
+      username: userData!.username,
+      isModerator: userData!.isModerator,
+      isBanned: userData!.isBanned
     }
   }});
 }));
@@ -235,6 +238,7 @@ interface userData {
   PUID: number;
   username: string;
   isModerator: boolean;
+  isBanned: boolean;
 }
 
 interface updateUserDataRequest {
@@ -260,7 +264,7 @@ export const updateUserData = functions.https.onRequest((request, response) => c
     return;
   }
 
-  userDoc.set(newUserData);
+  userDoc.update(newUserData);
   response.send({data: {
     success: true,
     message: ""

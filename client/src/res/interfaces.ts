@@ -22,4 +22,5 @@ export interface userData {
   PUID: number;
   username: string;
   isModerator: boolean;
+  isBanned: boolean;
 };
