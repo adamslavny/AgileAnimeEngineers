@@ -76,3 +76,9 @@ export const getMods = () => {
   const addDiscussionCall = functions.httpsCallable("getMods");
   return addDiscussionCall().then((result) => {return result.data});
 };
+
+export const assignMod = (assignerUID: string, newModPUID: number) => {
+  console.log(`calling assignMod(${assignerUID}, ${newModPUID})`);
+  const addDiscussionCall = functions.httpsCallable("assignMod");
+  return addDiscussionCall({ assignerUID: assignerUID, newModPUID: newModPUID }).then((result) => {return result.data});
+};

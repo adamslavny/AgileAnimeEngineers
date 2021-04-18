@@ -145,13 +145,11 @@ const recursiveDeleteDocument = async (document: types.DocumentReference) => {
   document.delete();
 };
 
-// const recursiveDeleteDocument = async (document: types.DocumentReference) => {
-//   const childCollections = await document.listCollections();
-//   await childCollections.forEach(async (collectionRef) => {
-//     await recursiveDeleteCollection(collectionRef);
-//   });
-//   document.delete();
-// };
+const checkIfUserIsMod = async (UID: string) => {
+  const user = db.doc(`Users/${UID}`);
+  const userSnapshot = await user.get();
+  return !!userSnapshot.data()?.isModerator;
+}
 
 interface deleteCategoryRequest{
   categoryID: string;
@@ -304,4 +302,26 @@ export const getMods = functions.https.onRequest((request, response) => cors(req
     modIDs.push(mod.data().PUID);
   });
   response.send({data: modIDs});
+}));
+
+interface assignModRequest {
+  assignerUID: string;
+  newModPUID: number;
+}
+
+export const assignMod = functions.https.onRequest((request, response) => cors(request, response, async () => {
+  response.set('Access-Control-Allow-Origin', '*');
+  log("body", request.body);
+
+  const { assignerUID, newModPUID } = request.body.data as assignModRequest;
+
+  if(await checkIfUserIsMod(assignerUID)){
+    const user = db.collection("Users").where("PUID", "==", newModPUID);
+    const userSnapshot = (await user.get()).docs[0];
+    if(userSnapshot.exists){
+      userSnapshot.ref.set({ isModerator: true });
+    }
+  }
+
+  response.send({data: {}});
 }));
