@@ -1,6 +1,5 @@
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
-import bg from './icons/bg-c.png';
 
 const LoginUI = (props: {signInCallback: () => boolean}) => {
 
@@ -23,16 +22,10 @@ const LoginUI = (props: {signInCallback: () => boolean}) => {
   };
 
   return (
-    <div className= "login">
-      <h1 className = "login-header">Welcome to Animex</h1>
-      <h2 className = "login-msg">Real-time chats about your favorite shows</h2>
-      <p className = "login-info"><b>Sign in with google to begin</b></p>
+    <div>
       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
-
     </div>
   );
 };
 
 export default LoginUI;
-
-/*Image Credit- https://www.humaaans.com/*/
