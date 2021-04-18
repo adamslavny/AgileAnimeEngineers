@@ -13,7 +13,8 @@ const LoginUI = (props: {signInCallback: () => boolean}) => {
 
     // We will display Google and Facebook as auth providers.
     signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID
     ],
     callbacks: {
       signInSuccessWithAuthResult: signInCallback
