@@ -159,10 +159,11 @@ label{
 }
 
 .discussion-view{
-  display: grid;
   justify-content: center;
-  width: 100%;
   margin-bottom: 30px; 
+  margin-left:auto;
+  margin-right: auto;
+  
 }
 
 
@@ -230,7 +231,8 @@ label{
 
 
 .send-button{
-  display:inline-block;
+  /*display: inline-block;
+  */
   padding:0.3em 1.2em;
   margin:2px;
   border-radius: 25px !important;
@@ -243,26 +245,36 @@ label{
   text-align:center;
   transition: all 0.2s;
   border: none;
-  width:100px;
-
-
-  position:fixed;
-  width:150px;
-  bottom: 0px;
-  right: auto;
   z-index:4000;
-  margin-left: 515px;
+  position: fixed;
+  width: 150px;
+  left:75%;
+  margin-left: -75px;
+  bottom: 0px;
+  margin-bottom: 3px;
+
+  
 }
 
 .send-msg-form{
   background-color: #ffffff;
   position:fixed;
   width: 500px;
-  right: auto;
-  bottom: 0px;
   z-index:4000;
-  margin: auto;
+
+  left:50%;
+  margin-left: -250px;
+  bottom: 0px;
   margin-bottom: 3px;
+
+}
+
+.container{
+  overflow: hidden;
+  background-color: rgb(255, 255, 255);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 .username{
@@ -306,6 +318,16 @@ label{
   margin-top: 5px;
   margin-bottom: 10px;
   font-size: 20px;
+}
+
+
+.pickerClass{
+  position:fixed;
+  width:150px;
+  bottom: 45px;
+  left:auto;
+  z-index:4000;
+
 }
 
 
@@ -479,3 +501,5 @@ label{
   opacity: 0.5;
   cursor: auto;
 }
+
+/*emoji picker component from: https://www.npmjs.com/package/emoji-picker-react*/
