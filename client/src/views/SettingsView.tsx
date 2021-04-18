@@ -75,14 +75,18 @@ const SettingsView = (props: {userData: userData, setUserData: (newUserData: use
               <col style={{width: "200px"}}/>
               <col />
             </colgroup>
-            <tr>
-              <th>Mod List</th>
-              <th>Add a mod</th>
-            </tr>
-            <tr>
-              <th><ListMods /></th>
-              <th><AddMod /></th>
-            </tr>
+            <thead>
+              <tr>
+                <th>Mod List</th>
+                <th>Add a mod</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th><ListMods /></th>
+                <th><AddMod /></th>
+              </tr>
+            </tbody>
           </table> 
         </div> : 
         <></>
