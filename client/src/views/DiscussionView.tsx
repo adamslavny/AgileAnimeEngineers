@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Component } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { deleteDiscussion, getChatroomRef } from "../res/BackendConnection";
 import firebase from 'firebase/app';
 import { message } from "../res/interfaces";
 import NotFound from "./NotFound";
+import Picker from 'emoji-picker-react';
+
 
 const DiscussionView = (props: {username: string}) => {
   useEffect(() => {
@@ -74,6 +76,10 @@ const DiscussionView = (props: {username: string}) => {
     );
   }
 
+  const onEmojiClick = (event: any, emojiObject: { emoji: string; }) => {
+    setMessageText(messageText+emojiObject.emoji)
+  };
+
   return (
     <div className="discussion-view">
       <button onClick={handleDelete}>Delete Discussion</button>
@@ -91,17 +97,24 @@ const DiscussionView = (props: {username: string}) => {
           </div>
         );
       })}
-      <form>
+      <form className = "container">
         <input className="send-msg-form"
           type="text"
           value={messageText}
           placeholder="Send a message..."
           onChange={(e) => setMessageText(e.target.value)}
         />
-        <button className="send-button" onClick={sendMessage}>Send</button>
+        <button className="send-button" onClick={sendMessage}>Send
+        </button>
       </form>
+      <div>
+      <div className="pickerClass">
+      <Picker onEmojiClick={onEmojiClick} />
+      </div>
+      </div>
     </div>
   );
 };
+
 
 export default DiscussionView;
