@@ -27,7 +27,7 @@ const AddMod = (props: { userData: userData }) => {
           if(isNaN(inputPUIDNum)){
             return;
           }
-          assignMod(userData.UID, inputPUIDNum);
+          assignMod(inputPUIDNum);
         }}
       >
         Assign New Moderator

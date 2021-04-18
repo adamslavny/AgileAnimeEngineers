@@ -1,3 +1,4 @@
+import firebase from "firebase";
 import { db, functions } from './firebase';
 import { userData } from './interfaces';
 
@@ -77,13 +78,15 @@ export const getMods = () => {
   return addDiscussionCall().then((result) => {return result.data});
 };
 
-export const assignMod = (assignerUID: string, newModPUID: number) => {
+export const assignMod = (newModPUID: number) => {
+  const assignerUID = firebase.auth().currentUser!.uid;
   console.log(`calling assignMod(${assignerUID}, ${newModPUID})`);
   const addDiscussionCall = functions.httpsCallable("assignMod");
   return addDiscussionCall({ assignerUID: assignerUID, newModPUID: newModPUID }).then((result) => {return result.data});
 };
 
-export const banUser = (assignerUID: string, bannedPUID: number) => {
+export const banUser = (bannedPUID: number) => {
+  const assignerUID = firebase.auth().currentUser!.uid;
   console.log(`calling banUser(${assignerUID}, ${bannedPUID})`);
   const addDiscussionCall = functions.httpsCallable("banUser");
   return addDiscussionCall({ assignerUID: assignerUID, bannedPUID: bannedPUID }).then((result) => {return result.data});
