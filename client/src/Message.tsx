@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { banUser as banUserBackend } from "./res/BackendConnection";
 import { message } from "./res/interfaces";
 import { getUsernamesCache } from "./res/UsernameCache";
 
@@ -34,7 +35,7 @@ const Message = (props: {message: message, showModOptions: boolean, handleDelete
   }
 
   const banUser = () => {
-
+    banUserBackend(message.authorID);
   };
 
   return (
