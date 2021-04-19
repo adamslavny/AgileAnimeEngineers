@@ -41,16 +41,6 @@ function App() {
                 Settings
               </Link>
             </Nav.Item>
-            <Nav.Item style={{padding: "5px"}}>Link2</Nav.Item>
-            <Nav.Item style={{padding: "5px"}}>Link3</Nav.Item>
-            <Nav.Item style={{padding: "5px"}}>
-              <button
-                onClick={() => {
-                  console.log(userData);
-                }}>
-                Debug Button
-              </button>
-            </Nav.Item>
           </Nav>
         </Navbar>
 
