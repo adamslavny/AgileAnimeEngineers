@@ -26,7 +26,7 @@ const LoginUI = (props: {signInCallback: () => boolean}) => {
     <div className= "login">
       <h1 className = "login-header">Welcome to Animex</h1>
       <h2 className = "login-msg">Real-time chats about your favorite shows</h2>
-      <p className = "login-info"><b>Sign in with google to begin</b></p>
+      <p className = "login-info"><b>Sign in to begin</b></p>
       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
 
     </div>
