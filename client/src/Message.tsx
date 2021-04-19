@@ -54,11 +54,11 @@ const Message = (props: {message: message, showModOptions: boolean, handleDelete
             showModOptions ?
             <span className="message-mod-options">
               <span className="ban-user">
-              <img src={smallNO} alt="trash can"
+              <img src={smallNO} alt="ban user"
                   onClick={banUser}/>
               </span>
               <span>&nbsp;
-                <img src={trashcanSmall} alt="Delete"
+                <img src={trashcanSmall} alt="delete message"
                   onClick={() => handleDelete(message.ID)}/>
               </span>
             </span>: 
