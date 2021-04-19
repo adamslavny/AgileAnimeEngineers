@@ -1,4 +1,4 @@
-import { useState, useEffect, Component } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { deleteDiscussion, getChatroomRef } from "../res/BackendConnection";
 import firebase from 'firebase/app';

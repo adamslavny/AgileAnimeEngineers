@@ -84,7 +84,7 @@ const SettingsView = (props: {userData: userData, setUserData: (newUserData: use
             <tbody>
               <tr>
                 <th><ListMods /></th>
-                <th style={{verticalAlign: "top"}}><AddMod userData={userData}/></th>
+                <th style={{verticalAlign: "top"}}><AddMod /></th>
               </tr>
             </tbody>
           </table> 

@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { assignMod } from "./res/BackendConnection";
-import { userData } from "./res/interfaces";
 
-const AddMod = (props: { userData: userData }) => {
+const AddMod = () => {
 
-  const { userData } = props;
 
   const [inputPUID, setInputPUID] = useState("");
 
