@@ -1,6 +1,5 @@
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
-import bg from './icons/bg-c.png';
 
 const LoginUI = (props: {signInCallback: () => boolean}) => {
 
