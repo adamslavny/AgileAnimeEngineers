@@ -6,11 +6,18 @@ import NotFound from './views/NotFound';
 import HomeView from './views/HomeView';
 import DiscussionView from './views/DiscussionView';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Nav, Form, FormControl } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import gator from './icons/gator.svg';
+import LoginUI from "./LoginUI";
+import { getUser } from "./res/BackendConnection";
+import firebase from "firebase";
+import { userData } from "./res/interfaces";
+import SettingsView from "./views/SettingsView";
 
 function App() {
-  const [username, setUsername] = useState("");
+  const [userData, setUserData] = useState<userData>({UID: "", PUID: 0, username: "", isModerator: false, isBanned: false});
+  const [loggedIn, setLoggedIn] = useState(false);
+
   return (
     <Router>
       <div className="App">
@@ -29,17 +36,12 @@ function App() {
             </Navbar.Brand>
           </Link>
           <Nav className="mr-auto">
-            <Nav.Item style={{padding: "5px"}}>Home</Nav.Item>
-            <Nav.Item style={{padding: "5px"}}>Link2</Nav.Item>
-            <Nav.Item style={{padding: "5px"}}>Link3</Nav.Item>
+            <Nav.Item style={{padding: "5px"}}>
+              <Link to="/settings" style={{color: "black"}}>
+                Settings
+              </Link>
+            </Nav.Item>
           </Nav>
-          <Form inline className = "username">
-            <FormControl
-              type="text"
-              placeholder="username"
-              onChange={(e) => {setUsername(e.target.value)}}
-            />
-          </Form>
         </Navbar>
 
         <h2 className='header'>
@@ -50,20 +52,45 @@ function App() {
               height="75"
               className="d-inline-block align-top"
               />{' '}</h2>
-        <Switch>
-          <Route exact path="/">
-            <HomeView />
-          </Route>
-          <Route path="/category/:id">
-            <CategoryView />
-          </Route>
-          <Route path="/discussion/:categoryID/:discussionID">
-            <DiscussionView username={username}/>
-          </Route>
-          <Route path="*">
-            <NotFound />
-          </Route>
-        </Switch>
+        {
+          loggedIn ?
+          (
+            userData.isBanned ?
+            <p>Looks like you got banned :(</p> :
+            ( 
+              <Switch>
+                <Route exact path="/">
+                  <HomeView />
+                </Route>
+                <Route path="/category/:id">
+                  <CategoryView userData={userData}/>
+                </Route>
+                <Route path="/discussion/:categoryID/:discussionID">
+                  <DiscussionView userData={userData}/>
+                </Route>
+                <Route exact path="/settings">
+                  <SettingsView userData={userData} setUserData={setUserData}/>
+                </Route>
+                <Route path="*">
+                  <NotFound />
+                </Route>
+              </Switch>
+            )
+          ) : 
+          (
+            <LoginUI signInCallback={() => {
+              setLoggedIn(true);
+              getUser(firebase.auth().currentUser!.uid).then((data) => {
+                if(data.isNewUser){
+                  // do something if they are a new user
+                }
+                setUserData({UID: firebase.auth().currentUser!.uid, ...data.userData});
+              });
+              return false;
+            }}/>
+          )
+        }
+
       </div>
     </Router>
   );

@@ -8,7 +8,6 @@ a:hover, a:visited, a:link, a:active{
 a{
   text-decoration: none;
   outline: none;
-  background-color: #cedbf3;
 }
 
 .category-view{
@@ -31,15 +30,17 @@ a{
   border-radius: 50px;
   border: 4px solid #f0bb9a;
   background:  #cedbf3;
-  padding:25px;
-  width: 400px;
-  height: 150px;
+  padding:20px;
+  width: 450px;
+  height: auto;
   margin-bottom: 25px;
   margin-top: 20px;
   box-shadow:  15px 15px 30px #879abe,
   -15px -15px 30px #ddfcff;
   font-family: "Arial Rounded MT";
+  font-size: auto;
   text-decoration: none;
+  overflow:hidden;
 }
 
 .App-link{
@@ -60,6 +61,7 @@ a{
 .card-title{
   font-weight: bold;
   text-decoration: none;
+  overflow: hidden;
 }
 
 .header{
@@ -88,6 +90,7 @@ a{
 
 .no-border-plz.card{
   text-decoration: none;
+  overflow:hidden !important;
 }
 
 button{
@@ -144,8 +147,8 @@ label{
   border: 4px solid #f0bb9a;
   background:  #cedbf3;
   padding:25px;
-  width: 400px;
-  height: 150px;
+  width: 450px;
+  height: auto;
   margin-bottom: 25px;
   margin-top: 20px;
   box-shadow:  15px 15px 30px #879abe,
@@ -155,11 +158,13 @@ label{
 }
 
 .discussion-view{
-  display: grid;
   justify-content: center;
-  width: 100%;
-  margin-bottom: 30px; 
+  margin-bottom: 35px; 
+  margin-left:auto;
+  margin-right: auto;
+
 }
+
 
 
 .msgClass{
@@ -181,12 +186,14 @@ label{
   width: 650px;
   margin: auto;
   margin-top:3px ;
+  
 }
 
 .msgClass p{
-  margin-bottom: 2px;
+  margin-bottom: 5px;
   inline-size: 600px;
   overflow-wrap:break-word ;
+  margin-right: 25px;
 }
 
 .msg-text{
@@ -200,7 +207,7 @@ label{
 .msgClass-2{
   right: 0px;
   position: absolute;
-	width: 550px;
+	width: 600px;
 	background-color: #fff;
 	padding: 1.125em 1.5em;
 	font-size: 14px;
@@ -226,7 +233,8 @@ label{
 
 
 .send-button{
-  display:inline-block;
+  /*display: inline-block;
+  */
   padding:0.3em 1.2em;
   margin:2px;
   border-radius: 25px !important;
@@ -239,26 +247,37 @@ label{
   text-align:center;
   transition: all 0.2s;
   border: none;
-  width:100px;
-
-
-  position:fixed;
-  width:150px;
-  bottom: 0px;
-  right: auto;
   z-index:4000;
-  margin-left: 515px;
+  position: fixed;
+  width: 150px;
+  left:75%;
+  margin-left: -75px;
+  bottom: 0px;
+  margin-bottom: 3px;
+
+  
 }
 
 .send-msg-form{
   background-color: #ffffff;
   position:fixed;
   width: 500px;
-  right: auto;
-  bottom: 0px;
   z-index:4000;
-  margin: auto;
+
+  left:50%;
+  margin-left: -250px;
+  bottom: 0px;
   margin-bottom: 3px;
+  margin-top: 8px;
+
+}
+
+.container{
+  overflow: hidden;
+  background-color: rgb(255, 255, 255);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 .username{
@@ -269,34 +288,94 @@ label{
   background-color: #ff0095;
 }
 
+.login{
+  background-image: url(icons/bg-c.png);
+  background-attachment: fixed;
+  background-position: center;
+  background-size:cover;
+  background-repeat: no-repeat;
+  height: 1080px;
+}
+
+.login-header{
+  font-family: "Arial Rounded MT";
+  text-align: center;
+  color: #ffffff;
+  font-size: 48px;
+  line-height: 80px;
+}
+
+.login-msg{
+  font-family: "Arial Rounded MT";
+  text-align: center;
+  color: #ffad88;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 25px;
+}
+
+.login-info{
+  font-family: "Arial Rounded MT";
+  text-align: center;
+  color: #ffffff;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
 
 
-/*https://freefrontend.com/css-speech-bubbles/*/
+.pickerClass{
+  position:fixed;
+  width:150px;
+  bottom: 45px;
+  left:auto;
+  z-index:4000;
 
-/**
- * <div class="react-tags">
- *   <div class="react-tags__selected">
- *     <button class="react-tags__selected-tag">
- *       <span class="react-tags__selected-tag-name" />
- *     </button>
- *   </div>
- *   <div class="react-tags__search">
- *     <div class="react-tags__search-wrapper">
- *       <input class="react-tags__search-input" />
- *       <div />
- *     </div>
- *     <div class="react-tags__suggestions">
- *       <ul>
- *         <li class="is-active">
- *           <mark />
- *         </li>
- *         <li class="is-disabled">
- *           <mark />
- *         </li>
- *       </ul>
- *     </div>
- *   </div>
- */
+}
+
+span.message-text{
+  display:inline-block;
+}
+
+span.msg-time{
+  text-align: center;
+}
+
+span.message-mod-options{
+  display:block;
+  float: right;
+  clear:right;
+  margin-right: 1px;
+  
+}
+
+span.ban-user{
+  margin-left: 5px;
+
+}
+
+span.delete-message{
+   margin-left: 5px;
+
+}
+
+.big-span{
+
+ position: absolute;
+ line-height: 25px;
+ position: absolute;            
+ right: 5px;                  
+ top: 50%;                      
+ transform: translate(25px,-50%);
+ margin-right: 10px;
+ 
+}
+
+.msg-adj{
+  transform: translateX(-10px);
+  padding-right: 25px;
+}
+
 .react-tags {
   position: relative;
   padding: 6px 0 0 6px;
@@ -334,7 +413,6 @@ label{
   padding: 6px 8px;
   border: 1px solid #D1D1D1;
   border-radius: 2px !important;
-  /* background: #F1F1F1; */
 
   /* match the font styles */
   font-size: inherit;
@@ -440,3 +518,5 @@ label{
   opacity: 0.5;
   cursor: auto;
 }
+
+/*emoji picker component from: https://www.npmjs.com/package/emoji-picker-react*/

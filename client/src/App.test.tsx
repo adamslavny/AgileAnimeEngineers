@@ -5,7 +5,7 @@ import App from './App';
 test('renders title', () => {
   render(<App />);
   //Test 1
-  const linkElement = screen.getByText(/Animex/i);
+  const linkElement = screen.getByText(/Welcome to Animex/i);
   expect(linkElement).toBeInTheDocument();
 });
 
